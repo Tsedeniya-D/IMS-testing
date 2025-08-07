@@ -1,0 +1,72 @@
+import json
+from django.shortcuts import render, redirect
+from .models import Department
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.views.generic.edit import UpdateView
+from .forms import DepartmentForm
+
+def department_submission(request):
+    if request.method == 'POST':
+        data = request.POST
+
+        try:
+            fields_and_counts = json.loads(data.get('fields_and_counts')) if data.get('fields_and_counts') else []
+        except json.JSONDecodeError:
+            fields_and_counts = []
+
+
+        # Create the department entry
+        department = Department.objects.create(
+            department=data.get('department'),
+            contact_person=data.get('contactPerson'),
+            email=data.get('email'),
+            phone=data.get('phone'),
+            intern_count=int(data.get('internCount') or 0),
+            fields_and_counts=fields_and_counts,
+            skills=data.get('skills'),
+            additional_info=data.get('additionalInfo')
+        )
+
+        request.session['department_saved'] = True
+
+        return redirect('department_success')  # redirect to success page
+
+    # GET request (first page load)
+    return render(request, 'departments.html', {
+        'success': request.session.get('department_saved')
+    })
+
+def department_success(request):
+    return render(request, 'depsuccess.html')
+
+def apply_requirements(request):
+    return render(request, 'departments.html')
+
+@csrf_exempt
+def department_update(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        submission_id = data.get('id')
+        try:
+            department = Department.objects.get(id=submission_id)
+            department.department = data.get('department')
+            department.contact_person = data.get('contactPerson')
+            department.email = data.get('email')
+            department.phone = data.get('phone')
+            department.intern_count = int(data.get('internCount') or 0)
+            department.fields_and_counts = data.get('fields')
+            department.skills = data.get('skills')
+            department.additional_info = data.get('additionalInfo')
+            department.save()
+            return JsonResponse({'success': True})
+        except Department.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Submission not found'})
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+
+class DepartmentUpdate(UpdateView):
+    model = Department
+    form_class = DepartmentForm
+    template_name = 'departments.html'  # Use your actual template path
+    success_url = '/departments/'       # Redirect after successful update
