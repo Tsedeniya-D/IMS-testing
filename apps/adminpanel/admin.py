@@ -1,12 +1,19 @@
-from django.utils import timezone
 from django.contrib import admin
 from apps.applications.models import InternshipApplication
 from apps.departments.models import Department
 from matches.models import Match
 from approved.models import Approved
+from django.urls import path
+from django.shortcuts import redirect
+from django.utils.html import format_html
+import openpyxl
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
 
+# Register base models
 admin.site.register(Department)
 admin.site.register(InternshipApplication)
+
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
@@ -21,10 +28,11 @@ class MatchAdmin(admin.ModelAdmin):
         'status',
     )
 
-    actions = ['approve_selected', 'waitlist_selected', 'reject_selected']
+    actions = ['run_matching_algorithm', 'approve_selected', 'waitlist_selected', 'reject_selected']
 
+    # Display methods for admin columns
     def get_student_name(self, obj):
-        return obj.application.first_name + ' ' + obj.application.last_name
+        return f"{obj.application.first_name} {obj.application.last_name}"
     get_student_name.short_description = 'Student Name'
 
     def get_student_department(self, obj):
@@ -51,53 +59,48 @@ class MatchAdmin(admin.ModelAdmin):
         return obj.department.additional_info
     get_department_info.short_description = 'Department Additional Info'
 
-def run_matching_algorithm(self, request, queryset):
-    applications = InternshipApplication.objects.filter(status='pending')  # Or your criteria
-    departments = Department.objects.all()
-    created = 0
-    updated = 0
+    # Main Matching Algorithm Action
+    def run_matching_algorithm(self, request, queryset):
+        applications = InternshipApplication.objects.filter(status='pending')
+        departments = Department.objects.all()
+        created = 0
+        updated = 0
 
-    for dept in departments:
-        # Extract all required majors from fields_and_counts
-        required_majors = [item['field'].strip().lower() for item in dept.fields_and_counts if 'field' in item]
-        for app in applications:
-            if not app.department:
-                continue
-            studentdept = app.department.strip().lower()
-            if studentdept in required_majors:
-                match, was_created = Match.objects.get_or_create(
-                    application=app,
-                    department=dept,
-                    defaults={
-                        'student_name': f"{app.first_name} {app.last_name}",
-                        'student_department': app.department,
-                        'student_skill': app.skills or '',
-                        'institution_department': dept.department,
-                        'fields_and_counts': dept.fields_and_counts,
-                        'department_skills': dept.skills or '',
-                        'department_additional_info': dept.additional_info or '',
-                        'status': 'pending',
-                        'matched_on': timezone.now(),
-                    }
-                )
-                if not was_created:
-                    # If it exists already, update the missing fields
-                    match.student_name = f"{app.first_name} {app.last_name}"
-                    match.student_department = app.department
-                    match.student_skill = app.skills or ''
-                    match.institution_department = dept.department
-                    match.fields_and_counts = dept.fields_and_counts
-                    match.department_skills = dept.skills or ''
-                    match.department_additional_info = dept.additional_info or ''
-                    match.status = 'pending'
+        for dept in departments:
+            required_majors = [
+                item['field'].strip().lower()
+                for item in dept.fields_and_counts
+                if 'field' in item
+            ]
+
+            for app in applications:
+                if not app.department:
+                    continue
+
+                studentdept = app.department.strip().lower()
+
+                if studentdept in required_majors:
+                    match, was_created = Match.objects.get_or_create(
+                        application=app,
+                        department=dept,
+                        defaults={'status': 'pending'}
+                    )
+
+                    if was_created:
+                        created += 1
+                    else:
+                        updated += 1
+
+                    # Always call save() to trigger model's own matched_on & snapshot logic
                     match.save()
-                    updated += 1
-                else:
-                    created += 1
 
-    self.message_user(request, f"Matching complete. {created} new matches created. {updated} existing matches updated.")
+        self.message_user(
+            request,
+            f"Matching complete. {created} new matches created. {updated} existing matches updated."
+        )
     run_matching_algorithm.short_description = "Run Matching Algorithm"
 
+    # Approve Selected Matches
     def approve_selected(self, request, queryset):
         for match in queryset:
             match.status = 'approved'
@@ -106,11 +109,13 @@ def run_matching_algorithm(self, request, queryset):
         self.message_user(request, "Selected matches approved.")
     approve_selected.short_description = "Approve selected"
 
+    # Waitlist Selected Matches
     def waitlist_selected(self, request, queryset):
         queryset.update(status='waitlist')
         self.message_user(request, "Selected matches waitlisted.")
     waitlist_selected.short_description = "Waitlist selected"
 
+    # Reject Selected Matches
     def reject_selected(self, request, queryset):
         queryset.update(status='rejected')
         self.message_user(request, "Selected matches rejected.")
@@ -119,4 +124,69 @@ def run_matching_algorithm(self, request, queryset):
 
 @admin.register(Approved)
 class ApprovedAdmin(admin.ModelAdmin):
-    list_display = ('match', 'approved_on')
+    list_display = ('student_name', 'department_name', 'approved_on', 'registered', 'register_button')
+
+    actions = ['mark_as_registered', 'export_as_excel']
+
+    def mark_as_registered(self, request, queryset):
+        updated = queryset.update(registered=True)
+        self.message_user(request, f"{updated} students marked as registered.")
+    mark_as_registered.short_description = "Mark selected students as registered"
+
+    def register_button(self, obj):
+        if not obj.registered:
+            return format_html(
+                '<a class="button" href="{}">Register</a>',
+                f'./{obj.pk}/register/'
+            )
+        return "Registered"
+    register_button.short_description = 'Register Student'
+    register_button.allow_tags = True
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                '<int:approved_id>/register/',
+                self.admin_site.admin_view(self.process_register),
+                name='approved-register',
+            ),
+        ]
+        return custom_urls + urls
+
+    def process_register(self, request, approved_id, *args, **kwargs):
+        approved_obj = self.get_object(request, approved_id)
+        if approved_obj and not approved_obj.registered:
+            approved_obj.registered = True
+            approved_obj.save()
+            self.message_user(request, f"Student '{approved_obj.match}' marked as registered.")
+        return redirect(request.META.get('HTTP_REFERER', 'admin:approved_approved_changelist'))
+    
+    def export_as_excel(self, request, queryset):
+        # Create workbook and sheet
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Approved Students"
+
+        # Define headers
+        headers = ['Student Name', 'Department', 'Approved On', 'Registered']
+
+        ws.append(headers)
+
+        for approved in queryset:
+            student_name = f"{approved.match.application.first_name} {approved.match.application.last_name}"
+            department = approved.match.department.department
+            approved_on = approved.approved_on.strftime("%Y-%m-%d %H:%M:%S")
+            registered = "Yes" if approved.registered else "No"
+
+            ws.append([student_name, department, approved_on, registered])
+
+        # Prepare HTTP response
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        )
+        response['Content-Disposition'] = 'attachment; filename=approved_students.xlsx'
+        wb.save(response)
+        return response
+
+    export_as_excel.short_description = "Download selected as Excel"

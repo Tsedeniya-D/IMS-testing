@@ -1,4 +1,3 @@
-# applications/signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from apps.applications.models import InternshipApplication
@@ -7,39 +6,63 @@ from matches.models import Match
 
 @receiver(post_save, sender=InternshipApplication)
 def auto_match_intern(sender, instance, created, **kwargs):
-    print("Signal triggered for:", instance)
-
     if not created:
         return
 
     student_major = instance.department
-    print("Student's department:", student_major)
-
     if not student_major:
         return
-    
+
+    student_major_lower = student_major.strip().lower()
     matching_depts = []
     all_departments = Department.objects.all()
 
     for dept in all_departments:
-        required_fields = [item['field'].strip().lower() for item in dept.fields_and_counts if 'field' in item]
-        if student_major.strip().lower() in required_fields:
-            matching_depts.append(dept)
+        fields_and_counts = dept.fields_and_counts or []
+        required_fields = {
+            item['field'].strip().lower(): item['count']
+            for item in fields_and_counts if 'field' in item and 'count' in item
+        }
 
-    if matching_depts:
-        # Match to the department with fewest interns assigned
-        dept = sorted(matching_depts, key=lambda d: d.matched_applications.count())[0]
+        if student_major_lower in required_fields:
+            matching_depts.append((dept, required_fields[student_major_lower]))
 
-        # Avoid duplicate match
-        match, created = Match.objects.get_or_create(
-            application=instance,
-            department=dept,
-            defaults={'status': 'pending'}
-        )
-
-        if created:
-            print(f"✅ Match created: {match}")
-    else:
+    if not matching_depts:
         print("❌ No matching department found for this intern.")
+        return
 
-   
+    available_depts = []
+    for dept, field_capacity in matching_depts:
+        current_field_count = Match.objects.filter(
+            department=dept,
+            status__in=['pending', 'approved'],
+            student_department__iexact=student_major.strip()
+        ).count()
+
+        print(f"Dept: {dept.department}, Field: {student_major.strip()}, Capacity: {field_capacity}, Current count: {current_field_count}")
+
+        if current_field_count < field_capacity:
+            available_depts.append((dept, current_field_count))
+
+    if available_depts:
+        dept = sorted(available_depts, key=lambda x: x[1])[0][0]
+        status = 'pending'
+    else:
+        dept = matching_depts[0][0]
+        status = 'waitlist'
+
+    match, was_created = Match.objects.get_or_create(
+        application=instance,
+        department=dept,
+        defaults={
+            'status': status,
+            'student_department': student_major.strip()
+        }
+    )
+
+    if not was_created and match.status != status:
+        match.status = status
+        match.save()
+
+    if was_created:
+        print(f"✅ Match created: {match} with status {status}")

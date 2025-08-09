@@ -1,37 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Home - SSGi Intern</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-        }
-        .btn {
-            display: block;
-            width: 250px;
-            margin: 20px auto;
-            padding: 15px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-decoration: none;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESSGI - Internship Program</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #083f76;
+      --secondary-color: #0066cc;
+      --accent-color: #e88d26;
+      --background: #f4f6fa;
+      --white: #ffffff;
+      --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--background);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary-color);
+      padding: 40px 20px;
+      color: var(--white);
+      position: relative;
+    }
+
+    .logo {
+      width: 160px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .header-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-header {
+      background-color: var(--secondary-color);
+      padding: 8px 16px;
+      color: var(--white);
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-header:hover {
+      background-color: #004a99;
+      transform: translateY(-2px);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .boxes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .box {
+      flex: 1 1 240px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 260px;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .box img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .box h3 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .box p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .apply-now {
+      margin-top: 50px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent-color);
+      color: var(--white);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: var(--shadow);
+    }
+
+    .apply-now:hover {
+      background: #cc731f;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: #e9ecef;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      .boxes-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .header-buttons {
+        flex-direction: column;
+        top: 80px;
+        right: 10px;
+      }
+
+      .logo {
+        width: 140px;
+        top: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to SSGi Intern Portal</h1>
-    <a href="{% url 'interns' %}" class="btn">Continue as Student</a>
-    <a href="{% url 'departments' %}" class="btn">Continue as Department</a>
-    <a href="/admin/login/" class="btn">Continue as Admin</a>
+    
+
+  <header>
+    <img src="SSGI_Logo.png" alt="ESSGI Logo" class="logo" />
+    <div class="header-buttons">
+      <a href="/admin/login/" class="btn-header">Admin</a>
+      <a href="{% url 'departments' %}" class="btn-header">Department</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Space Science and Geospatial Institute Internship Program</h1>
+    <p class="description">
+      The Ethiopian Space Science and Geospatial Institute (ESSGI) offers a dynamic internship program in space science, Earth observation, satellite technology, and geospatial data analysis. Join our national mission and build your career at the forefront of innovation.
+    </p>
+
+    <div class="boxes-container">
+      <div class="box">
+        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Project overview" />
+        <h3>Project Overview</h3>
+        <p>Explore our research initiatives and your potential contributions.</p>
+      </div>
+
+      <div class="box">
+        <img src="photo.png" alt="Eligibility criteria"/>
+        <h3>Eligibility Criteria</h3>
+        <p>Understand who can apply and the program’s key requirements.</p>
+      </div>
+
+      <div class="box">
+        <img src="last.png" alt="Application Process" />
+        <h3>Application Process</h3>
+        <p>Follow a clear and simple guide on how to apply.</p>
+      </div>
+
+      <div class="box">
+        <img src="okkk.png" alt="Benefits" />
+        <h3>Benefits</h3>
+        <p>Gain experience, mentorship, and hands-on exposure to national projects.</p>
+      </div>
+    </div>
+
+    <a href="{% url 'interns' %}" class="apply-now">Apply Now</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Ethiopian Space Science and Geospatial Institute. All rights reserved.
+  </footer>
+
 </body>
 </html>
