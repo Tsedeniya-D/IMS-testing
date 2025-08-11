@@ -360,23 +360,23 @@
                     <select id="department" name="department" required>
                         <option value="">-- Select Department --</option>
                         <option value="Aerial Survey Lead Executive">Aerial Survey Lead Executive</option>
-                        <option value="Spatial Decision Support Lead Executive Officer">Spatial Decision Support Lead Executive Officer</option>
-                        <option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Officer</option>
-                        <option value="Remote Sensing Lead Executive Officer">Remote Sensing Lead Executive Officer</option>
-                        <option value="Space and Planetary Science Lead Executive Officer">Space and Planetary Science Lead Executive Officer</option>
-                        <option value="Satellite Operation Lead Executive Officer">Satellite Operation Lead Executive Officer</option>
-                        <option value="Data and System Administration Lead Executive Officer">Data and System Administration Lead Executive Officer</option>
-                        <option value="Space and Geospatial Information Standardization Framework Lead Executive Officer">Space and Geospatial Information Standardization Framework Lead Executive Officer</option>
-                        <option value="Platform and Application Development Lead Executive Officer">Platform and Application Development Lead Executive Officer</option>
-                        <option value="Photogrammetry and Lidar data Processing Lead Executive Officer">Photogrammetry and Lidar data Processing Lead Executive Officer</option>
-                        <option value="Mapping Lead Executive Officer">Mapping Lead Executive Officer</option>
-                        <option value="Geodetic Infrastructure and Service Lead Executive Officer">Geodetic Infrastructure and Service Lead Executive Officer</option>
-                        <option value="Aerospace Engineering and Satellite Communication Officer">Aerospace Engineering and Satellite Communication Officer</option>
-                        <option value="Astronomy and Astrophysics Lead Executive Officer">Astronomy and Astrophysics Lead Executive Officer</option>
-                        <option value="Training and Technology Transfer Lead Executive Officer">Training and Technology Transfer Lead Executive Officer</option>
-                        <option value="Regional Partnership Lead Executive Officer">Regional Partnership Lead Executive Officer</option>
-                        <option value="Geodesy and Geodynamics Lead Executive Officer">Geodesy and Geodynamics Lead Executive Officer</option>
-                        <option value="Postgraduate, Registrar and Research Administrative Lead Executive Officer">Postgraduate, Registrar and Research Administrative Lead Executive Officer</option>
+                        <option value="Spatial Decision Support Lead Executive Officer">Spatial Decision Support Lead Executive Office</option>
+                        <option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Office</option>
+                        <option value="Remote Sensing Lead Executive Officer">Remote Sensing Lead Executive Office</option>
+                        <option value="Space and Planetary Science Lead Executive Officer">Space and Planetary Science Lead Executive Office</option>
+                        <option value="Satellite Operation Lead Executive Officer">Satellite Operation Lead Executive Office</option>
+                        <option value="Data and System Administration Lead Executive Officer">Data and System Administration Lead Executive Office</option>
+                        <option value="Space and Geospatial Information Standardization Framework Lead Executive Officer">Space and Geospatial Information Standardization Framework Lead Executive Office</option>
+                        <option value="Platform and Application Development Lead Executive Officer">Platform and Application Development Lead Executive Office</option>
+                        <option value="Photogrammetry and Lidar data Processing Lead Executive Officer">Photogrammetry and Lidar data Processing Lead Executive Office</option>
+                        <option value="Mapping Lead Executive Officer">Mapping Lead Executive Office</option>
+                        <option value="Geodetic Infrastructure and Service Lead Executive Officer">Geodetic Infrastructure and Service Lead Executive Office</option>
+                        <option value="Aerospace Engineering and Satellite Communication Officer">Aerospace Engineering and Satellite Communication Office</option>
+                        <option value="Astronomy and Astrophysics Lead Executive Officer">Astronomy and Astrophysics Lead Executive Office</option>
+                        <option value="Training and Technology Transfer Lead Executive Officer">Training and Technology Transfer Lead Executive Office</option>
+                        <option value="Regional Partnership Lead Executive Officer">Regional Partnership Lead Executive Office</option>
+                        <option value="Geodesy and Geodynamics Lead Executive Officer">Geodesy and Geodynamics Lead Executive Office</option>
+                        <option value="Postgraduate, Registrar and Research Administrative Lead Executive Officer">Postgraduate, Registrar and Research Administrative Lead Executive Office</option>
                     </select>
                 </div>
                 
@@ -529,8 +529,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="additionalInfo">Additional Information (optional)</label>
-                    <textarea id="additionalInfo" name="additionalInfo" placeholder="Any other requirements or information"></textarea>
+                    <label for="potential_project">Potential Project (optional)</label>
+                    <textarea id="potential_project" name="potential_project" placeholder="Any potential project ideas or topics"></textarea>
                 </div>
                 
                 <input type="hidden" id="fields_and_counts" name="fields_and_counts" value="">
@@ -859,7 +859,7 @@
                 internCount: document.getElementById('internCount').value,
                 fields: fields,
                 skills: document.getElementById('skills').value,
-                additionalInfo: document.getElementById('additionalInfo').value,
+                potential_project: document.getElementById('potential_project').value,
                 timestamp: new Date().toISOString()
             };
         }
@@ -910,8 +910,8 @@
             document.getElementById('phone').value = submission.phone;
             document.getElementById('internCount').value = submission.internCount;
             document.getElementById('skills').value = submission.skills;
-            document.getElementById('additionalInfo').value = submission.additionalInfo;
-            
+            document.getElementById('potential_project').value = submission.potential_project;
+
             // Reset all checkboxes and counts
             document.querySelectorAll('input[name="fields"]').forEach(checkbox => {
                 checkbox.checked = false;

@@ -25,7 +25,7 @@ def department_submission(request):
             intern_count=int(data.get('internCount') or 0),
             fields_and_counts=fields_and_counts,
             skills=data.get('skills'),
-            additional_info=data.get('additionalInfo')
+            potential_project=data.get('potential_project')
         )
 
         request.session['department_saved'] = True
@@ -57,7 +57,7 @@ def department_update(request):
             department.intern_count = int(data.get('internCount') or 0)
             department.fields_and_counts = data.get('fields')
             department.skills = data.get('skills')
-            department.additional_info = data.get('additionalInfo')
+            department.potential_project = data.get('potential_project')
             department.save()
             return JsonResponse({'success': True})
         except Department.DoesNotExist:

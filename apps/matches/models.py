@@ -15,7 +15,7 @@ class Match(models.Model):
     institution_department = models.CharField(max_length=100, blank=True, null=True)
     fields_and_counts = models.JSONField(blank=True, null=True)   # remove max_length
     department_skills = models.TextField(max_length=500, blank=True, null=True)
-    department_additional_info = models.TextField(max_length=500, blank=True, null=True)
+    department_potential_project = models.TextField(max_length=500, blank=True, null=True)
 
     status = models.CharField(
         max_length=20,
@@ -44,7 +44,7 @@ class Match(models.Model):
             self.institution_department = dept.department
             self.fields_and_counts = dept.fields_and_counts
             self.department_skills = dept.skills or ''
-            self.department_additional_info = dept.additional_info or ''
+            self.department_potential_project = dept.potential_project or ''
 
         # If you want matched_on to be "last matched/updated", set it every save:
         self.matched_on = timezone.now()

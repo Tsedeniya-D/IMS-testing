@@ -10,7 +10,7 @@ class Department(models.Model):
     phone = models.CharField(max_length=50, blank=True, null=True)
     intern_count = models.PositiveIntegerField()
     skills = models.TextField(blank=True, null=True)
-    additional_info = models.TextField(blank=True, null=True)
+    potential_project = models.TextField(blank=True, null=True)
      # Store field/count pairs as JSON: [{"field": "Physics", "count": 2}, ...]
     fields_and_counts = models.JSONField(default=list)
     submitted_at = models.DateTimeField(auto_now_add=True)

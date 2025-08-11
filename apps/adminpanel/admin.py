@@ -53,11 +53,11 @@ class MatchAdmin(admin.ModelAdmin):
 
     def get_department_skills(self, obj):
         return obj.department.skills
-    get_department_skills.short_description = 'Department Skills'
+    get_department_skills.short_description = 'Department Skills Requirement'
 
     def get_department_info(self, obj):
-        return obj.department.additional_info
-    get_department_info.short_description = 'Department Additional Info'
+        return obj.department.potential_project
+    get_department_info.short_description = 'Department Potential Project'
 
     # Main Matching Algorithm Action
     def run_matching_algorithm(self, request, queryset):
