@@ -10,6 +10,8 @@ import openpyxl
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
 
+from .models import EmailTemplate
+
 # Register base models
 admin.site.register(Department)
 admin.site.register(InternshipApplication)
@@ -190,3 +192,14 @@ class ApprovedAdmin(admin.ModelAdmin):
         return response
 
     export_as_excel.short_description = "Download selected as Excel"
+
+
+
+
+@admin.register(EmailTemplate)
+class EmailTemplateAdmin(admin.ModelAdmin):
+    def get_fields(self, request, obj=None):
+        fields = ['type', 'subject', 'body']
+        if obj and obj.type == 'approval':
+            fields.append('report_day')
+        return fields
