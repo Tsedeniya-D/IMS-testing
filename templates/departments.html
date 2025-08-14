@@ -607,9 +607,7 @@
     const form = document.getElementById('internshipForm');
     const successMessage = document.getElementById('successMessage');
     const submitBtn = document.querySelector('.submit-btn');
-    const updateBtn = document.createElement('button');
-    const deleteBtn = document.createElement('button');
-
+   
     // === Storage Key ===
     const storageKey = 'internshipSubmissions';
 
@@ -629,20 +627,7 @@
     });
 
     // === Dynamic Update & Delete Buttons ===
-    updateBtn.innerHTML = `<i class="fas fa-sync"></i> Update Submission`;
-    updateBtn.className = 'submit-btn';
-    updateBtn.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
-    updateBtn.style.display = 'none';
-
-    deleteBtn.innerHTML = `<i class="fas fa-trash"></i> Delete Submission`;
-    deleteBtn.className = 'submit-btn';
-    deleteBtn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-    deleteBtn.style.display = 'none';
-
-    // Insert buttons after submitBtn
-    const submitContainer = document.querySelector('.submit-container');
-    submitContainer.appendChild(updateBtn);
-    submitContainer.appendChild(deleteBtn);
+    
 
     // === Show/Hide "Other" Field ===
     document.getElementById('field16').addEventListener('change', function() {
@@ -689,31 +674,7 @@
     }
 
     // === Load Submission by Email on Page Load ===
-    window.addEventListener('load', function() {
-        const email = document.getElementById('email').value.trim();
-        if (email) {
-            checkForExistingSubmission(email);
-        }
-
-        // Watch for email changes
-        document.getElementById('email').addEventListener('change', function() {
-            const email = this.value.trim();
-            if (email) checkForExistingSubmission(email);
-        });
-    });
-
-    function checkForExistingSubmission(email) {
-        const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
-        const existing = submissions.find(sub => sub.email === email);
-        if (existing) {
-            loadSubmissionIntoForm(existing);
-            submitBtn.style.display = 'none';
-            updateBtn.style.display = 'inline-flex';
-            deleteBtn.style.display = 'inline-flex';
-        } else {
-            resetFormState();
-        }
-    }
+    
 
     function loadSubmissionIntoForm(sub) {
         document.getElementById('submissionId').value = sub.id;
@@ -762,13 +723,7 @@
     }
 
     // === Reset Form UI to Initial State ===
-    function resetFormState() {
-        submitBtn.style.display = 'inline-flex';
-        updateBtn.style.display = 'none';
-        deleteBtn.style.display = 'none';
-        document.getElementById('otherField').style.display = 'none';
-    }
-
+    
     // === Get Form Data ===
     function getFormData() {
         const fields = [];
@@ -873,36 +828,7 @@
         }, 3000);
     });
 
-    // === Update Button Click ===
-    updateBtn.addEventListener('click', function() {
-        form.dispatchEvent(new Event('submit'));
-    });
-
-    // === Delete Button Click ===
-    deleteBtn.addEventListener('click', function() {
-        const id = document.getElementById('submissionId').value;
-        const email = document.getElementById('email').value;
-
-        if (confirm('Are you sure you want to delete your submission?')) {
-            deleteFromLocalStorage(id);
-            form.reset();
-            resetFormState();
-            document.getElementById('otherField').style.display = 'none';
-            document.querySelectorAll('.field-count').forEach(el => {
-                el.disabled = true;
-                el.value = 0;
-            });
-            showSuccessMessage('Submission deleted successfully.');
-        }
-    });
-
-    function showSuccessMessage(msg) {
-        successMessage.textContent = msg;
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 5000);
-    }
+    
 </script>
 </body>
 </html>
