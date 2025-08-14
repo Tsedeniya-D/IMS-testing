@@ -30,6 +30,9 @@ class InternshipApplication(models.Model):
     department = models.CharField(max_length=100, default='Not Provided')
     current_year = models.CharField(max_length=10, default='Not Provided')
     expected_graduation = models.CharField(max_length=20, default='Not Provided')
+    duration = models.CharField(max_length=10, choices=[(f"{i} month", f"{i} month{'s' if i > 1 else ''}") for i in range(1, 13)], null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     skills = models.TextField(blank=True, default='Not Provided')
     interests = models.TextField(default='Not Provided')
     motivation_letter = models.FileField(upload_to='motivation_letters/')
@@ -45,3 +48,8 @@ class InternshipApplication(models.Model):
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def duration_display(self):
+        if self.duration:
+            return f"{self.duration} month{'s' if self.duration > 1 else ''}"
+        return ""
