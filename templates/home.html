@@ -1,237 +1,532 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ESSGI - Internship Program</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #083f76;
-      --secondary-color: #0066cc;
-      --accent-color: #e88d26;
-      --background: #f4f6fa;
-      --white: #ffffff;
-      --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slider with Intern Features</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<style>
+:root{
+  --blue:#1e90ff;
+  --orange:#ff7f32;
+  --red:#ff3131;
+  --ink:#ffffff;
+  --muted:rgba(0,0,0,0.7);
+  --bg:#0b1020;
+  --card:#f4f6f9;
+  --card-text:#111;
+}
+body{
+  margin:0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x:hidden;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+ /* === Header Styles === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(8, 63, 118, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--background);
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+        header.scrolled {
+            padding: 15px 0;
+            background: rgba(8, 63, 118, 0.98);
+        }
 
-    header {
-      background: var(--primary-color);
-      padding: 40px 20px;
-      color: var(--white);
-      position: relative;
-    }
+        .logo {
+            width: 180px;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            border-radius: 6px;
+            transition: var(--transition);
+        }
 
-    .logo {
-      width: 160px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
-    }
+        .header-buttons {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
 
-    .header-buttons {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 12px;
-    }
+        .btn-header {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    .btn-header {
-      background-color: var(--secondary-color);
-      padding: 8px 16px;
-      color: var(--white);
-      font-weight: 500;
-      border: none;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow);
-    }
+        .btn-header:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .btn-header:hover {
-      background-color: #004a99;
-      transform: translateY(-2px);
-    }
+/* HERO */
+.hero {
+  position:relative;
+  width:100%;
+  height:60vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 60px 20px;
-      text-align: center;
-    }
+/* SLIDE CONTAINER */
+.slide-track {
+  display:flex;
+  position:absolute;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 
-    h1 {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
+/* SINGLE SLIDE */
+.slide-item {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  opacity:1;
+  transition: none;
+}
 
-    .description {
-      font-size: 1.1rem;
-      max-width: 800px;
-      margin: 0 auto 40px;
-      color: #444;
-      line-height: 1.7;
-    }
+/* IMAGE */
+.slide-item img{
+  width:55%;
+  height:100%;
+  object-fit:cover;
+  border-radius:0 50% 50% 0 / 0 100% 100% 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
 
-    .boxes-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
-      margin-top: 40px;
-    }
+/* TEXT */
+.slide-item .text {
+  width:40%;
+  position:relative;
+}
+.slide-item .text span {
+  opacity: 0;
+  display: inline-block;
+  transform: rotate(-180deg) translateY(-20px);
+  animation: sprinkleRotate 0.5s forwards;
+}
+.slide-item h2, .slide-item p { margin:0; color:white; }
 
-    .box {
-      flex: 1 1 240px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      max-width: 260px;
-    }
+/* KEYFRAMES */
+@keyframes sprinkleRotate { 
+  to{opacity:1; transform: rotate(0deg) translateY(0);} 
+}
 
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
+/* NAV BUTTONS inside text area moved down */
+.nav-btn {
+  position:absolute;
+  top:170%;
+  transform:translateY(-50%);
+  font-size:2rem;
+  color:white;
+  background:rgba(0,0,0,0.4);
+  border:none;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  transition:0.3s;
+}
+.nav-btn:hover{ background:rgba(30,144,255,0.7);}
+.prev-btn { left:-50px;}
+.next-btn { right:-50px;}
 
-    .box img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
+/* DOTS */
+.dots {
+  top:170%;
+  display:flex;
+  gap:8px;
+  position:absolute;
+  bottom:20px;
+  left:55%;
+  transform:translateX(-50%);
+}
+.dots span {
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;
+  transition:0.3s;
+}
+.dots .active{
+  background:var(--blue);
+}
 
-    .box h3 {
-      color: var(--primary-color);
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
+/* INTERNS SECTION - LIGHTER BACKGROUND & ATTRACTIVE */
+.intern-section {
+  padding:40px 80px;
+  display:grid;
+  gap:40px;   /* more spacing between cards */
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));  /* ⬅ wider cards */
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+}
 
-    .box p {
-      font-size: 0.95rem;
-      color: #555;
-    }
+.intern-card{
+  background: white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  transition: transform 0.4s, box-shadow 0.4s;
+  border-left:5px solid var(--blue);
+  color: var(--card-text);
+}
+.intern-card:hover{
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:0 15px 30px rgba(0,0,0,0.35);
+  border-left:5px solid var(--orange);
+}
+.intern-card h3{
+  margin-bottom:10px;
+  color:var(--blue);
+}
+.intern-card p{
+  color:#333;
+  line-height:1.6;
+}
+/* >>> ADDED: Apply button styles and placement <<< */
+.apply-btn-container{
+  grid-column:1 / -1;       /* span full width under the two cards */
+  display:flex;
+  justify-content:center;
+  margin-top:10px;
+}
+.apply-btn{
+  background:var(--blue);
+  color:#fff;
+  font-weight:700;
+  padding:14px 28px;
+  border-radius:30px;
+  text-decoration:none;
+  letter-spacing:.2px;
+  box-shadow:0 10px 25px rgba(30,144,255,0.25);
+  transition:background .3s, transform .2s, box-shadow .2s;
+}
+.apply-btn:hover{
+  background:var(--orange);
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.35);
+}
 
-    .apply-now {
-      margin-top: 50px;
-      padding: 14px 30px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      background: var(--accent-color);
-      color: var(--white);
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: var(--shadow);
-    }
-
-    .apply-now:hover {
-      background: #cc731f;
-      transform: translateY(-2px);
-    }
-
-    footer {
-      background: #e9ecef;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: auto;
-    }
-
-    @media (max-width: 768px) {
-      .boxes-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .header-buttons {
-        flex-direction: column;
-        top: 80px;
-        right: 10px;
-      }
-
-      .logo {
-        width: 140px;
-        top: 10px;
-      }
-    }
-  </style>
+/* Footer */
+        footer {
+            background: var(--galaxy-dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            color: var(--stellar-gold);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--stellar-gold);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: var(--space-blue);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+</style>
 </head>
 <body>
-    
 
-  <header>
-    <img src="SSGI_Logo.png" alt="ESSGI Logo" class="logo" />
-    <div class="header-buttons">
-      <a href="/admin/login/" class="btn-header">Admin</a>
-      <a href="{% url 'departments' %}" class="btn-header">Department</a>
+<!-- Header -->
+    <header id="header">
+        <img src="http://ssgi.gov.et/wp-content/uploads/2023/04/header-logo.jpg" alt="Ethiopian Space Science and Geospatial Institute" class="logo" />
+        <div class="header-buttons">
+            <a href="/admin/login/" class="btn-header home">Admin</a>
+            <a href="{% url 'departments' %}" class="btn-header home">Department</a>
+</header>
+
+<main>
+  <!-- HERO / SLIDER -->
+  <section class="hero">
+    <div class="slide-track" id="slide-track">
+      <div class="slide-item">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4npxCdezO97o5vVLqu8xh1eeTvr62kodUc2_S2Qt2h8-u2cHZlHj5kXoKI9UaWPawEP1tjF6WEWxF1ZMyA799f_ueHmpQKNphrgp_xNa6Cscy3Y_tN_8ueH_kFAN2oVuoU5d6YZZ=w408-h306-k-no">
+        <div class="text">
+          <h2>Galaxy Exploration</h2>
+          <p>Discover distant galaxies and cosmic wonders.</p>
+          <button class="nav-btn prev-btn">&#60;</button>
+          <button class="nav-btn next-btn">&#62;</button>
+          <div class="dots"></div>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/736x/3e/eb/43/3eeb439219aec0841ce1724e1fd1f649.jpg">
+        <div class="text">
+          <h2>Earth Observation</h2>
+          <p>Monitoring our planet from space for research and disaster management.</p>
+          <button class="nav-btn prev-btn">&#60;</button>
+          <button class="nav-btn next-btn">&#62;</button>
+          <div class="dots"></div>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://media.istockphoto.com/id/494562740/photo/communications-satellite-orbiting-earth.jpg?s=1024x1024&w=is&k=20&c=woyeK7SSJG8a7rOSxy_2LFs96Xz_003uFJyguHYHuEE=">
+        <div class="text">
+          <h2>Satellite Technology</h2>
+          <p>Designing and operating satellites for communication and navigation.</p>
+          <button class="nav-btn prev-btn">&#60;</button>
+          <button class="nav-btn next-btn">&#62;</button>
+          <div class="dots"></div>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?auto=format&fit=crop&w=1600&q=80">
+        <div class="text">
+          <h2>Deep Space Research</h2>
+          <p>Studying nebulae and cosmic phenomena to expand knowledge.</p>
+          <button class="nav-btn prev-btn">&#60;</button>
+          <button class="nav-btn next-btn">&#62;</button>
+          <div class="dots"></div>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <div class="container">
-    <h1>Space Science and Geospatial Institute Internship Program</h1>
-    <p class="description">
-      The Ethiopian Space Science and Geospatial Institute (ESSGI) offers a dynamic internship program in space science, Earth observation, satellite technology, and geospatial data analysis. Join our national mission and build your career at the forefront of innovation.
-    </p>
-
-    <div class="boxes-container">
-      <div class="box">
-        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Project overview" />
-        <h3>Project Overview</h3>
-        <p>Explore our research initiatives and your potential contributions.</p>
-      </div>
-
-      <div class="box">
-        <img src="photo.png" alt="Eligibility criteria"/>
-        <h3>Eligibility Criteria</h3>
-        <p>Understand who can apply and the program’s key requirements.</p>
-      </div>
-
-      <div class="box">
-        <img src="last.png" alt="Application Process" />
-        <h3>Application Process</h3>
-        <p>Follow a clear and simple guide on how to apply.</p>
-      </div>
-
-      <div class="box">
-        <img src="okkk.png" alt="Benefits" />
-        <h3>Benefits</h3>
-        <p>Gain experience, mentorship, and hands-on exposure to national projects.</p>
-      </div>
+  <!-- WHY INTERNS SHOULD APPLY (2 FEATURES) -->
+  <section class="intern-section">
+    <div class="intern-card">
+      <h3>Hands-On Experience</h3>
+      <p>Work directly with cutting-edge space and geospatial technologies, gaining valuable practical skills.</p>
     </div>
+    <div class="intern-card">
+      <h3>Mentorship & Guidance</h3>
+      <p>Learn from experts in research, satellite operations, and geospatial analytics to develop your career.</p>
+    </div>
+    <!-- Apply Button UNDER the two features -->
+    <div class="apply-btn-container">
+      <a href="{% url 'interns' %}" class="apply-btn">Apply for Internship</a>
+    </div>
+  </section>
+</main>
 
-    <a href="{% url 'interns' %}" class="apply-now">Apply Now</a>
-  </div>
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SSGI Interns</h3>
+                    <p>Advancing space science and geospatial research through innovative internship programs.</p>
+              <div class="social-icons">
+                        <a href="  https://facebook.com/esstiethiopia  " target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://t.me/spacegeospatial  " target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="https://linkedin.com/in/space-science-and-geospatial-institute  " target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://twitter.com/ssgi2022  " target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://youtube.com/@ssgi  " target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="{% url 'interns' %}" class="apply-now">Apply Now</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Space Science Campus, Cosmos Avenue</li>
+                        <li><i class="fas fa-phone"></i> +1 (234) 567-8901</li>
+                        <li><i class="fas fa-envelope"></i> internships@spacescience.edu</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Space Geospatial Institute. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--cosmic-red);"></i> for the future of space science.</p>
+            </div>
+        </div>
+    </footer>
 
-  <footer>
-    &copy; 2025 Ethiopian Space Science and Geospatial Institute. All rights reserved.
-  </footer>
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide-item');
+  const total = slides.length;
+  let current = 0;
+  let autoTimeout;
+
+  function sprinkleText(el){
+    ['h2','p'].forEach(tag=>{
+      const element = el.querySelector(tag);
+      const text = element.innerText;
+      element.innerHTML = '';
+      text.split(' ').forEach((word, wIndex)=>{
+        word.split('').forEach((char,i)=>{
+          const span = document.createElement('span');
+          span.innerText = char;
+          span.style.animationDelay = (i*0.02)+'s';
+          element.appendChild(span);
+        });
+        if(wIndex<text.split(' ').length-1){
+          element.appendChild(document.createTextNode(' '));
+        }
+      });
+    });
+  }
+
+  function createDots(el){
+    const dotsContainer = el.querySelector('.dots');
+    for(let i=0;i<total;i++){
+      const dot = document.createElement('span');
+      if(i===0) dot.classList.add('active');
+      dot.addEventListener('click', ()=>showSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateDots(){
+    slides.forEach(s=>{
+      s.querySelectorAll('.dots span').forEach((dot,j)=>{
+        dot.classList.toggle('active', j===current);
+      });
+    });
+  }
+
+  slides.forEach(slide=>{
+    sprinkleText(slide);
+    createDots(slide);
+  });
+
+  function showSlide(nextIndex){
+    if(nextIndex===current) return;
+    clearTimeout(autoTimeout);
+
+    const prevSlide = slides[current];
+    const nextSlide = slides[nextIndex];
+
+    nextSlide.style.left='-100%';
+    nextSlide.style.opacity=1;
+
+    const duration = 3000;
+    const pause = 10000;
+    let start=null;
+
+    function animate(t){
+      if(!start) start=t;
+      const progress = t-start;
+      const move = Math.min(progress/duration,1);
+      prevSlide.style.left = (move*100)+'%';
+      nextSlide.style.left = (-100 + move*100)+'%';
+      if(progress<duration){
+        requestAnimationFrame(animate);
+      } else {
+        current = nextIndex;
+        sprinkleText(nextSlide);
+        updateDots();
+        autoTimeout = setTimeout(()=>showSlide((current+1)%total),pause);
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Manual buttons inside text area
+  slides.forEach(slide=>{
+    const prevBtn = slide.querySelector('.prev-btn');
+    const nextBtn = slide.querySelector('.next-btn');
+    prevBtn.addEventListener('click', ()=>{
+      let prevIndex = (current-1+total)%total;
+      showSlide(prevIndex);
+    });
+    nextBtn.addEventListener('click', ()=>{
+      let nextIndex = (current+1)%total;
+      showSlide(nextIndex);
+    });
+  });
+
+  slides[0].style.left='0';
+  autoTimeout = setTimeout(()=>showSlide((current+1)%total),10000);
+})();
+</script>
 
 </body>
 </html>
