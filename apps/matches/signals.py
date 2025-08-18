@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from matches.models import Match
 from adminpanel.models import EmailTemplate
-from approved.models import Approved
+from apps.approved.models import Approved
 
 @receiver(post_save, sender=Match)
 def handle_status_change(sender, instance, created, **kwargs):

@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'apps.adminpanel',
     'apps.matches',
     'apps.approved',
+    'apps.progress'
+    
 ]
 
 MIDDLEWARE = [

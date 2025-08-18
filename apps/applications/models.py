@@ -53,3 +53,4 @@ class InternshipApplication(models.Model):
         if self.duration:
             return f"{self.duration} month{'s' if self.duration > 1 else ''}"
         return ""
+

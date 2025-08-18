@@ -2,7 +2,7 @@ from django.contrib import admin
 from apps.applications.models import InternshipApplication
 from apps.departments.models import Department
 from matches.models import Match
-from approved.models import Approved
+from apps.approved.models import Approved
 from django.urls import path
 from django.shortcuts import redirect
 from django.utils.html import format_html
