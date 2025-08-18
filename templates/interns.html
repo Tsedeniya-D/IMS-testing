@@ -611,6 +611,7 @@
                         <div class="form-group">
                             <label for="email">Email Address</label>
                             <input type="email" id="email" name="email" class="form-control" required>
+                            <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
                         </div>
 
                         <div class="form-row">
@@ -772,7 +773,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="duration">Internship Duration (Months)</label>
-                                <select id="duration" name="duration" class="form-control" required>
+                                <select id="duration" name="duration" class="form-control" >
                                     <option value="">Select Duration</option>
                                     <option value="1 month">1 month</option>
                                     <option value="2 month">2 months</option>
@@ -795,6 +796,7 @@
                             <div class="form-group">
                                 <label for="end_date">End Date</label>
                                 <input type="date" id="end_date" name="end_date" class="form-control" required>
+                                <div id="date-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
                             </div>
                         </div>
                         
@@ -899,28 +901,96 @@
         </div>
     </footer>
 
-    <script>
-       
-        
-        // Tab Selection for Application Form
-        function setTab(tabType) {
-            // Update tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Show/hide institutional field
-            const institutionField = document.getElementById('institution-field');
-            if (tabType === 'institutional') {
-                institutionField.style.display = 'block';
-            } else {
-                institutionField.style.display = 'none';
+   <script>
+    // Tab Selection
+    function setTab(tabType, event) {
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const institutionField = document.getElementById('institution-field');
+        institutionField.style.display = tabType === 'institutional' ? 'block' : 'none';
+    }
+
+    // Initialize date input to today
+    document.getElementById('start_date').valueAsDate = new Date();
+
+    // Progress tracking simulation
+    setTimeout(() => {
+        document.querySelectorAll('.phase-icon')[0].classList.add('completed');
+        document.querySelectorAll('.line')[0].classList.add('completed');
+    }, 1000);
+
+    // Duration validation
+    function calculateMonthsDifference(start, end) {
+        let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+        if (end.getDate() < start.getDate()) months -= 1;
+        return months;
+    }
+
+    function validateDateDuration() {
+        const startDateVal = document.getElementById('start_date').value;
+        const endDateVal = document.getElementById('end_date').value;
+        const durationVal = document.getElementById('duration').value;
+        const errorDiv = document.getElementById('date-error');
+        errorDiv.style.display = 'none';
+        errorDiv.textContent = '';
+
+        if (startDateVal && endDateVal && durationVal) {
+            const start = new Date(startDateVal);
+            const end = new Date(endDateVal);
+            const monthsDiff = calculateMonthsDifference(start, end);
+            const durationMonths = parseInt(durationVal, 10);
+
+            if (monthsDiff !== durationMonths) {
+                errorDiv.textContent = `Selected duration (${durationMonths} months) does not match the difference between Start Date and End Date (${monthsDiff} months).`;
+                errorDiv.style.display = 'block';
+                return false;
             }
         }
-        
-        
-        // Initialize date input to today
+        return true;
+    }
+
+    document.getElementById('start_date').addEventListener('change', validateDateDuration);
+    document.getElementById('end_date').addEventListener('change', validateDateDuration);
+    document.getElementById('duration').addEventListener('change', validateDateDuration);
+
+
+
+    //email check
+    const checkEmailUrl = "{% url 'check_email' %}";
+    document.getElementById('email').addEventListener('input', function() {
+        const email = this.value.trim();
+        const errorDiv = document.getElementById('email-error');
+        errorDiv.style.display = 'none';
+        errorDiv.textContent = '';
+        emailIsValid = true;
+
+        if (email) {
+            fetch(`${checkEmailUrl}?email=${encodeURIComponent(email)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        errorDiv.textContent = 'This email has already been used to apply. Please use a different email.';
+                        errorDiv.style.display = 'block';
+                        emailIsValid = false;
+                    }
+                })
+                .catch(err => console.error('Fetch error:', err));
+        }
+    });
+
+
+
+    // Form submission
+    document.getElementById('application-form').addEventListener('submit', function(e) {
+        if (!validateDateDuration() || !emailIsValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+         // Mission tracker – mark green only if user has applied
+    // Initialize date input to today
         document.getElementById('startDate').valueAsDate = new Date();
         
         // Simulate progress tracking
@@ -929,5 +999,6 @@
             document.querySelectorAll('.line')[0].classList.add('completed');
         }, 1000);
     </script>
-</body>
-</html>
+
+</script>
+

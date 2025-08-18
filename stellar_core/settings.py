@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'apps.adminpanel',
     'apps.matches',
     'apps.approved',
-    'apps.progress'
+    'apps.progress',
     
 ]
 
@@ -153,5 +153,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'haniabesha667@gmail.com'
-EMAIL_HOST_PASSWORD = 'fywm kxhd jyaj fsnc'  # NOT your Gmail password — use an app password
+EMAIL_HOST_PASSWORD = 'tale nots xkjy qjxi'  # NOT your Gmail password — use an app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

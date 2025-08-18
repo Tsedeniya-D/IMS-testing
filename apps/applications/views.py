@@ -1,4 +1,6 @@
+
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import InternshipApplication
 
 def internship_application(request):
@@ -48,4 +50,12 @@ def application_success(request):
     return render(request, 'success.html')
 
 def apply_internship(request):
-    return render(request, 'interns.html')
+    return render(request, 'interns.html', {
+        'status': request.session.get('application_status')
+    })
+
+def check_email(request):
+    email = request.GET.get('email', '').strip().lower()
+    exists = InternshipApplication.objects.filter(email__iexact=email).exists()
+    return JsonResponse({'exists': exists})
+
