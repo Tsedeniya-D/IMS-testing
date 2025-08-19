@@ -23,7 +23,6 @@ def internship_application(request):
             education_level=data.get('educationLevel'),
             cgpa=data.get('cgpa') or None,
             passport_id=files.get('passportId'),
-            institution=data.get('institution'),
             department=data.get('department'),
             current_year=data.get('currentYear'),
             expected_graduation=data.get('expectedGraduation'),

@@ -26,7 +26,6 @@ class InternshipApplication(models.Model):
     education_level = models.CharField(max_length=50, default='Not Provided')
     cgpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     passport_id = models.FileField(upload_to='passport_ids/', default='Not Provided')
-    institution = models.CharField(max_length=200, blank=True, null=True)
     department = models.CharField(max_length=100, default='Not Provided')
     current_year = models.CharField(max_length=10, default='Not Provided')
     expected_graduation = models.CharField(max_length=20, default='Not Provided')

@@ -588,7 +588,7 @@
                     
                     <div class="tabs">
                         <div class="tab active" onclick="setTab('personal')">Personal Intern</div>
-                        <div class="tab" onclick="setTab('institutional')">Institutional Intern</div>
+                        <!-- <div class="tab" onclick="setTab('institutional')">Institutional Intern</div> -->
                     </div>
                     
                     <form id="application-form" enctype="multipart/form-data" method="POST" action="{% url 'internship_application' %}">
@@ -697,10 +697,10 @@
                             <input type="file" id="passportId" name="passportId" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
                         </div>
 
-                        <div class="form-group" id="institution-field" style="display: none;">
+                        <!-- <div class="form-group" id="institution-field" style="display: none;">
                             <label for="institution">Institution/Organization</label>
                             <input type="text" id="institution" name="institution" class="form-control">
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label for="department">Department</label>
@@ -828,32 +828,7 @@
                         </button>
                     </form>
                 </div>
-                
-                <div class="progress-container">
-    <h3 class="progress-title">MISSION TRACKER</h3>
-    <div class="mission-tracker">
         
-        <!-- Application Phase -->
-          <div class="phase tracker-step {% if status == 'application' or status == 'pending' %}yellow-step{% else %}blue-step{% endif %}">
-            <div class="phase-icon {% if status == 'application' or status == 'pending' %}completed{% endif %}"><i class="fas fa-file-alt"></i></div>
-            <div class="phase-info">
-                <h4>Application</h4>
-                <p>Complete your application form</p>
-            </div>
-        </div>
-
-        <div class="phase-timeline">
-            <div class="line {% if status == 'application' or status == 'pending' %}completed{% endif %}"></div>
-        </div>
-
-        <!-- Approval Phase -->
-        <div class="phase tracker-step {% if status == 'approval' %}yellow-step{% else %}blue-step inactive-step{% endif %}">
-            <div class="phase-icon"><i class="fas fa-check-circle"></i></div>
-            <div class="phase-info">
-                <h4>Approval</h4>
-                <p>Final decision & onboarding</p>
-            </div>
-        </div>
     </div>
 </div>
 </section>
@@ -907,8 +882,8 @@
         document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
         event.target.classList.add('active');
 
-        const institutionField = document.getElementById('institution-field');
-        institutionField.style.display = tabType === 'institutional' ? 'block' : 'none';
+    //     const institutionField = document.getElementById('institution-field');
+    //    // institutionField.style.display = tabType === 'institutional' ? 'block' : 'none';
     }
 
     // Initialize date input to today
@@ -989,16 +964,16 @@
         }
     });
 
-         // Mission tracker – mark green only if user has applied
-    // Initialize date input to today
-        document.getElementById('startDate').valueAsDate = new Date();
+    //      // Mission tracker – mark green only if user has applied
+    // // Initialize date input to today
+    //     document.getElementById('startDate').valueAsDate = new Date();
         
-        // Simulate progress tracking
-        setTimeout(() => {
-            document.querySelectorAll('.phase-icon')[0].classList.add('completed');
-            document.querySelectorAll('.line')[0].classList.add('completed');
-        }, 1000);
-    </script>
+    //     // Simulate progress tracking
+    //     setTimeout(() => {
+    //         document.querySelectorAll('.phase-icon')[0].classList.add('completed');
+    //         document.querySelectorAll('.line')[0].classList.add('completed');
+    //     }, 1000);
+    //
 
 </script>
 
