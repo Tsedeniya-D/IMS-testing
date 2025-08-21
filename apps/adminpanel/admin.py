@@ -1,4 +1,5 @@
 from django.contrib import admin
+from apps import approved
 from apps.applications.models import InternshipApplication
 from apps.departments.models import Department
 from matches.models import Match
@@ -127,7 +128,15 @@ class MatchAdmin(admin.ModelAdmin):
 
 @admin.register(Approved)
 class ApprovedAdmin(admin.ModelAdmin):
-    list_display = ('student_name', 'department_name', 'approved_on', 'registered', 'register_button')
+    list_display = (
+        'student_name',
+        'department_name',
+        'approved_on',
+        'registered',
+        'get_start_date',
+        'get_end_date',
+        'register_button'
+    )
 
     actions = ['mark_as_registered', 'export_as_excel']
 
@@ -172,7 +181,7 @@ class ApprovedAdmin(admin.ModelAdmin):
         ws.title = "Approved Students"
 
         # Define headers
-        headers = ['Student Name', 'Department', 'Approved On', 'Registered']
+        headers = ['Student Name', 'Department', 'Approved On', 'Start Date', 'End Date', 'Registered']
 
         ws.append(headers)
 
@@ -182,7 +191,11 @@ class ApprovedAdmin(admin.ModelAdmin):
             approved_on = approved.approved_on.strftime("%Y-%m-%d %H:%M:%S")
             registered = "Yes" if approved.registered else "No"
 
-            ws.append([student_name, department, approved_on, registered])
+            start_date = approved.start_date.strftime("%Y-%m-%d") if approved.start_date else ""
+            end_date = approved.end_date.strftime("%Y-%m-%d") if approved.end_date else ""
+
+            ws.append([student_name, department, approved_on, start_date, end_date, registered])
+
 
         # Prepare HTTP response
         response = HttpResponse(
@@ -193,6 +206,15 @@ class ApprovedAdmin(admin.ModelAdmin):
         return response
 
     export_as_excel.short_description = "Download selected as Excel"
+
+    def get_start_date(self, obj):
+        return obj.start_date
+    get_start_date.short_description = "Start Date"
+
+    def get_end_date(self, obj):
+        return obj.end_date
+    get_end_date.short_description = "End Date"
+
 
 
 

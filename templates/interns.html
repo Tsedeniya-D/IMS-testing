@@ -41,8 +41,8 @@
         }
 
         :root {
-            --space-blue: #0B3D91;
-            --stellar-gold: #FFD700;
+            --space-blue: #1b5674;
+            --stellar-gold: #dd984b;
             --cosmic-red: #FC3D21;
             --nebula-purple: #9B59B6;
             --star-white: #FFFFFF;
@@ -73,82 +73,52 @@
             padding: 0 20px;
         }
         
-        /* Header & Navigation */
-        header {
-            background: linear-gradient(135deg, var(--galaxy-dark) 0%, var(--space-blue) 100%);
-            padding: 15px 0;
-            box-shadow: var(--orbit-shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo-icon {
-            font-size: 28px;
-            color: var(--stellar-gold);
-            animation: pulse 3s infinite;
-        }
-        
-        .logo-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--star-white);
-            letter-spacing: 1px;
-        }
-        
-        .logo-text span {
-            color: var(--stellar-gold);
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-        
-        nav a {
-            color: var(--star-white);
-            text-decoration: none;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            font-size: 18px;
-            transition: color 0.3s;
-            position: relative;
-            padding: 5px 0;
-        }
-        
-        nav a:hover {
-            color: var(--stellar-gold);
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--stellar-gold);
-            transition: width 0.3s;
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
+           /* Header & Navigation */
+           
+header {
+    background:white; /* solid blue */
+    padding: 4px 0;      /* very slim */
+    box-shadow: none;    /* remove shadow for clean look */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-image {
+    height: 80px;   /* instead of fixed width, control by height */
+    width: 170px;
+    border-radius: 0; /* no rounded corners */
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    margin: 0;
+}
+
+nav a {
+    color:#1b5674;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: white;
+    color: #0B3D91;
+}
         /* Hero Section */
         .hero {
             background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 247, 250, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="50" cy="50" r="2" fill="%230B3D91" opacity="0.3"/><circle cx="150" cy="30" r="1.5" fill="%230B3D91" opacity="0.3"/><circle cx="100" cy="100" r="1" fill="%230B3D91" opacity="0.3"/><circle cx="180" cy="150" r="2.5" fill="%230B3D91" opacity="0.3"/><circle cx="70" cy="180" r="1.2" fill="%230B3D91" opacity="0.3"/></svg>');
@@ -218,17 +188,29 @@
             gap: 8px;
         }
         
-        .btn-primary {
-            background: var(--space-blue);
-            color: var(--star-white);
-            box-shadow: 0 4px 15px rgba(11, 61, 145, 0.3);
-        }
-        
-        .btn-primary:hover {
-            background: #0A2F70;
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(11, 61, 145, 0.4);
-        }
+       .btn-primary {
+  padding: 14px 60px;
+  border-radius: 50px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background:  #1b5674;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 4px 15px rgba(11, 61, 145, 0.3);
+}
+
+.btn-primary:hover {
+  background: #dd984b;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(11, 61, 145, 0.4);
+}
         
         .btn-secondary {
             background: var(--stellar-gold);
@@ -545,24 +527,19 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-satellite"></i>
-                </div>
-                <div class="logo-text">SSGI<span>INTERNS</span></div>
+                <img src="http://ssgi.gov.et/wp-content/uploads/2023/04/header-logo.jpg" alt="Ethiopian Space Science and Geospatial Institute" class="logo-image">
             </div>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#apply"><i class="fas fa-rocket"></i> Apply</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
-            <h1>SPACE INTERNSHIP <span>PROGRAM</span></h1>
+            <h1>SSGI INTERNSHIP <span>PROGRAM</span></h1>
             <p>Join our mission to explore the cosmos and advance geospatial sciences. Gain hands-on experience with cutting-edge technology and work alongside leading scientists in space research.</p>
             <div class="cta-buttons">
                 <a href="#apply" class="btn btn-primary"><i class="fas fa-user-astronaut"></i> Apply as Intern</a>
@@ -575,8 +552,7 @@
     <section id="apply" class="application">
         <div class="container">
             <div class="section-title">
-                <h2>LAUNCH YOUR CAREER</h2>
-                <p>Apply to our internship program and begin your journey in space science and geospatial research.</p>
+               <!--LAUNCH YOUR CAREER REMOVED-->
             </div>
             
             <div class="application-container">
@@ -627,9 +603,9 @@
                         <!-- Add after the "City" field and before the "Institution/Organization" field in the application form -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="university">University (Ethiopia) or College Name</label>
+                                <label for="university">University (Ethiopia)</label>
                                 <select id="university" name="university" class="form-control">
-                                    <option value="">Select University/College</option>
+                                    <option value="">Select University</option>
                                     <option>Addis Ababa University (AAU)</option>
                                     <option>Adama Science and Technology University (ASTU)</option>
                                     <option>Arba Minch University</option>
@@ -656,7 +632,7 @@
                                     <option>Madda Walabu University</option>
                                     <option>Metu University</option>
                                     <option>Raya University</option>
-                                    <option>Other (Specify College Below)</option>
+                                    <option>Other</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -681,7 +657,6 @@
                                 <label for="educationLevel">Current Education Level</label>
                                 <select id="educationLevel" name="educationLevel" class="form-control" required>
                                     <option value="">Select Level</option>
-                                    <option>High School</option>
                                     <option>Undergraduate</option>
                                     <option>Graduate</option>
                                 </select>
@@ -807,7 +782,7 @@
 
                         <div class="form-group">
                             <label for="interests">Area of Interest</label>
-                            <textarea id="interests" name="interests" class="form-control" rows="3" placeholder="Describe your research interests and goals" required></textarea>
+                            <textarea id="interests" name="interests" class="form-control" rows="3" placeholder="Describe your research interests and goals" ></textarea>
                         </div>
 
                         <div class="form-group">
@@ -819,11 +794,11 @@
                             <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
                         </div>
                         <div class="form-group">
-                            <label for="recommendationLetter">Application Letter (PDF)</label>
+                            <label for="recommendationLetter">Internship Introduction Letter (PDF)</label>
                             <input type="file" id="recommendationLetter" name="recommendationLetter" class="form-control" accept=".pdf" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary" style="width: 30%; margin-top: 20px;">
                             <i class="fas fa-paper-plane"></i> Submit Application
                         </button>
                     </form>
@@ -834,45 +809,9 @@
 </section>
    
     <!-- Footer -->
-    <footer>
+    <footer style="background: var(--galaxy-dark); color: white; padding: 15px 0; text-align: center; font-size: 14px;">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>SSGI Interns</h3>
-                    <p>Advancing space science and geospatial research through innovative internship programs.</p>
-                    <div class="social-icons">
-                        <a href="https://facebook.com/esstiethiopia" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://t.me/spacegeospatial" target="_blank"><i class="fab fa-telegram"></i></a>
-                        <a href="https://linkedin.com/in/space-science-and-geospatial-institute" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://twitter.com/ssgi2022" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://youtube.com/@ssgi" target="_blank"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#apply"><i class="fas fa-chevron-right"></i> Apply Now</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> Space Science Campus, Cosmos Avenue</li>
-                        <li><i class="fas fa-phone"></i> +1 (234) 567-8901</li>
-                        <li><i class="fas fa-envelope"></i> internships@spacescience.edu</li>
-                        <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2023 Space Geospatial Institute. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--cosmic-red);"></i> for the future of space science.</p>
-            </div>
+            <p>&copy; 2025 Ethiopian Space Science and Geospatial Institute. All rights reserved.</p>
         </div>
     </footer>
 
