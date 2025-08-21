@@ -6,6 +6,10 @@ from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
 from .forms import DepartmentForm
 
+from django.utils.decorators import method_decorator
+from .decorators import departments_open_required
+
+@departments_open_required
 def department_submission(request):
     if request.method == 'POST':
         data = request.POST
@@ -40,6 +44,7 @@ def department_submission(request):
 def department_success(request):
     return render(request, 'depsuccess.html')
 
+@departments_open_required
 def apply_requirements(request):
     return render(request, 'departments.html')
 
@@ -65,6 +70,7 @@ def department_update(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
+@method_decorator(departments_open_required, name='dispatch')
 class DepartmentUpdate(UpdateView):
     model = Department
     form_class = DepartmentForm
