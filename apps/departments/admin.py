@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.contrib import admin, messages
 from django.utils import timezone
 from .models import DepartmentPortalConfig
+from django.shortcuts import redirect
+
 
 @admin.register(DepartmentPortalConfig)
 class DepartmentPortalConfigAdmin(admin.ModelAdmin):
@@ -12,8 +14,13 @@ class DepartmentPortalConfigAdmin(admin.ModelAdmin):
     actions = ("open_portal", "close_portal", "open_for_7_days")
 
     def has_add_permission(self, request):
-        # Enforce exactly one row
+        # Only allow 1 config
         return not DepartmentPortalConfig.objects.exists()
+
+    def changelist_view(self, request, extra_context=None):
+        """Redirect directly to the config edit page."""
+        obj = DepartmentPortalConfig.get_solo()
+        return redirect(f"{obj.pk}/change/")
 
     def status_badge(self, obj):
         effective = "OPEN" if obj.is_effectively_open else "CLOSED"
