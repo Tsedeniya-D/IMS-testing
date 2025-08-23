@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -464,7 +465,11 @@ nav a:hover {
             color: #aaa;
             font-size: 14px;
         }
-        
+         /* === REQUIRED FIELD ASTERISK STYLE === */
+        .required-star {
+            color: #e43c11;
+            font-weight: bold;
+            font-size: 1.1em;}
         /* Animations */
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -571,39 +576,39 @@ nav a:hover {
                     {% csrf_token %}
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
+                                <label for="firstName">First Name<span class="required-star">*</span></label>
                                 <input type="text" id="firstName" name="firstName" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="lastName">Last Name</label>
+                                <label for="lastName">Last Name<span class="required-star">*</span></label>
                                 <input type="text" id="lastName" name="lastName" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="age">Age</label>
+                                <label for="age">Age<span class="required-star">*</span></label>
                                 <input type="number" id="age" name="age" class="form-control" min="15" max="100" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
+                            <label for="email">Email Address<span class="required-star">*</span></label>
                             <input type="email" id="email" name="email" class="form-control" required>
                             <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="phone">Phone Number</label>
+                                <label for="phone">Phone Number<span class="required-star">*</span></label>
                                 <input type="tel" id="phone" name="phone" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="city">City</label>
+                                <label for="city">City<span class="required-star">*</span></label>
                                 <input type="text" id="city" name="city" class="form-control" required>
                             </div>
                         </div>
                         <!-- Add after the "City" field and before the "Institution/Organization" field in the application form -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="university">University (Ethiopia)</label>
+                                <label for="university">University (Ethiopia)<span class="required-star">*</span></label>
                                 <select id="university" name="university" class="form-control">
                                     <option value="">Select University</option>
                                     <option>Addis Ababa University (AAU)</option>
@@ -643,18 +648,18 @@ nav a:hover {
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="nationality">Nationality</label>
+                                <label for="nationality">Nationality<span class="required-star">*</span></label>
                                 <input type="text" id="nationality" name="nationality" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
+                                <label for="address">Address<span class="required-star">*</span></label>
                                 <input type="text" id="address" name="address" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="educationLevel">Current Education Level</label>
+                                <label for="educationLevel">Current Education Level<span class="required-star">*</span></label>
                                 <select id="educationLevel" name="educationLevel" class="form-control" required>
                                     <option value="">Select Level</option>
                                     <option>Undergraduate</option>
@@ -668,7 +673,7 @@ nav a:hover {
                         </div>
 
                         <div class="form-group">
-                            <label for="passportId">Passport or National ID (PDF/JPG/PNG)</label>
+                            <label for="passportId">Passport or National ID (PDF/JPG/PNG)<span class="required-star">*</span></label>
                             <input type="file" id="passportId" name="passportId" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
                         </div>
 
@@ -678,7 +683,7 @@ nav a:hover {
                         </div> -->
 
                         <div class="form-group">
-                            <label for="department">Department</label>
+                            <label for="department">Department<span class="required-star">*</span></label>
                             <select id="department" name="department" class="form-control" required>
                                 <option value="">Select Department</option>
                                 <option>Accounting</option>
@@ -736,11 +741,11 @@ nav a:hover {
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="currentYear">Current Year of Study</label>
+                                <label for="currentYear">Current Year of Study<span class="required-star">*</span></label>
                                 <input type="text" id="currentYear" name="currentYear" class="form-control" placeholder="e.g. 2nd Year" required>
                             </div>
                             <div class="form-group">
-                                <label for="expectedGraduation">Expected Graduation</label>
+                                <label for="expectedGraduation">Expected Graduation<span class="required-star">*</span></label>
                                 <input type="month" id="expectedGraduation" name="expectedGraduation" class="form-control" required>
                             </div>
                         </div>
@@ -765,11 +770,11 @@ nav a:hover {
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="start_date">Start Date</label>
+                                <label for="start_date">Start Date<span class="required-star">*</span></label>
                                 <input type="date" id="start_date" name="start_date" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="end_date">End Date</label>
+                                <label for="end_date">End Date<span class="required-star">*</span></label>
                                 <input type="date" id="end_date" name="end_date" class="form-control" required>
                                 <div id="date-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
                             </div>
@@ -777,12 +782,12 @@ nav a:hover {
                         
                         <div class="form-group">
                             <label for="skills">Skills & Qualifications</label>
-                            <textarea id="skills" name="skills" class="form-control" rows="3" placeholder="List your relevant skills and qualifications"></textarea>
+                            <textarea id="skills" name="skills" class="form-control" rows="3" placeholder="List your relevant skills and qualifications(e.g python, web development, cartography.........)"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="interests">Area of Interest</label>
-                            <textarea id="interests" name="interests" class="form-control" rows="3" placeholder="Describe your research interests and goals" ></textarea>
+                            <textarea id="interests" name="interests" class="form-control" rows="3" placeholder="Describe your research interests and goals(e.g system analysis, mobile application.........)" ></textarea>
                         </div>
 
                         <div class="form-group">
@@ -794,7 +799,7 @@ nav a:hover {
                             <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
                         </div>
                         <div class="form-group">
-                            <label for="recommendationLetter">Internship Introduction Letter (PDF)</label>
+                            <label for="recommendationLetter">Internship Introduction Letter (PDF)<span class="required-star">*</span></label>
                             <input type="file" id="recommendationLetter" name="recommendationLetter" class="form-control" accept=".pdf" required>
                         </div>
 
