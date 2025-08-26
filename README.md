@@ -104,7 +104,6 @@ intern/
 │── passport_ids/         # Uploaded passport IDs
 │── recommendations/      # Uploaded recommendation letters
 │── resumes/              # Uploaded resumes
-│── static/               # CSS, JS, Images (create if missing)
 │── templates/            # HTML templates (interns.html, departments.html, admin.html, etc.)
 │── stellar_core/         # Core Django project files (settings, urls, wsgi)
 │── manage.py
@@ -143,3 +142,30 @@ This project is proprietary and intended for internal use by [Organization Name]
 
 Internship Management System Project Team  
 Built as part of internship/project work at Space Science and Geospatial Institute.
+
+## Screenshots
+
+---
+
+## Screenshots
+
+### Home Page
+![Home Page](screenshots/homepage1.png)
+
+### Home Page
+![Home Page ](screenshots/homepage2.png)
+
+### Home Page
+![Home Page](screenshots/homepage6.png)
+
+### Student Application Form
+![Student Application Form](screenshots/intern1.png)
+
+### Student Application Form
+![Student Application Form](screenshots/intern2.png)
+
+### Department Requirements Submission
+![Department Requirements Submission](screenshots/dept1.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin2.png)
