@@ -143,11 +143,9 @@ This project is proprietary and intended for internal use by [Organization Name]
 Internship Management System Project Team  
 Built as part of internship/project work at Space Science and Geospatial Institute.
 
-## Screenshots
 
----
 
-## Screenshots
+## Pictures
 
 ### Home Page
 ![Home Page](screenshots/homepage1.png)
