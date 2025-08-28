@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
-from decouple import config
+import os
+try:
+    from decouple import config  # type: ignore
+except Exception:  # Fallback if python-decouple is not installed
+    def config(key, default=None):
+        return os.environ.get(key, default)
 from pathlib import Path
 
 import sys
@@ -87,16 +91,25 @@ WSGI_APPLICATION = 'stellar_core.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
+# If Postgres env vars are provided, use Postgres; otherwise fall back to SQLite for local dev
+if config('DB_NAME', default='') and config('DB_USER', default=''):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='5432'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 
@@ -155,3 +168,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'haniabesha667@gmail.com'
 EMAIL_HOST_PASSWORD = 'tale nots xkjy qjxi'  # NOT your Gmail password — use an app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Authentication redirects
+LOGIN_REDIRECT_URL = '/departments/'
+LOGOUT_REDIRECT_URL = '/'

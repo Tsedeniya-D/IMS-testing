@@ -379,6 +379,15 @@
     <!-- Header -->
     <header id="header">
         <img src="http://ssgi.gov.et/wp-content/uploads/2023/04/header-logo.jpg" alt="Ethiopian Space Science and Geospatial Institute" class="logo" />
+        {% if request.user.is_authenticated %}
+        <div class="header-buttons" style="position:absolute; top:50%; right:20px; transform:translateY(-50%); display:flex; gap:10px;">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="/" />
+                <button type="submit" class="btn-header">Logout</button>
+            </form>
+        </div>
+        {% endif %}
     </header>
 
     <!-- Main Content -->

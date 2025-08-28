@@ -4,7 +4,7 @@ from django.contrib import admin
 # apps/departments/admin.py
 from django.contrib import admin, messages
 from django.utils import timezone
-from .models import DepartmentPortalConfig
+from .models import DepartmentPortalConfig, Department
 from django.shortcuts import redirect
 
 
@@ -50,3 +50,10 @@ class DepartmentPortalConfigAdmin(admin.ModelAdmin):
         cfg.open_until = now + timezone.timedelta(days=7)
         cfg.save()
         self.message_user(request, "Departments portal OPEN for 7 days.", level=messages.SUCCESS)
+
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ("department", "contact_person", "email", "phone", "intern_count", "submitted_at")
+    search_fields = ("department", "contact_person", "email")
+    list_filter = ("submitted_at",)

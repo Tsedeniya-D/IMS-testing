@@ -2,13 +2,16 @@ import json
 from django.shortcuts import render, redirect
 from .models import Department
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
 from .forms import DepartmentForm
 
 from django.utils.decorators import method_decorator
-from .decorators import departments_open_required
+from .decorators import departments_open_required, department_user_required
 
+@login_required
+@department_user_required
 @departments_open_required
 def department_submission(request):
     if request.method == 'POST':
@@ -44,6 +47,8 @@ def department_submission(request):
 def department_success(request):
     return render(request, 'depsuccess.html')
 
+@login_required
+@department_user_required
 @departments_open_required
 def apply_requirements(request):
     return render(request, 'departments.html')
@@ -70,6 +75,8 @@ def department_update(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(department_user_required, name='dispatch')
 @method_decorator(departments_open_required, name='dispatch')
 class DepartmentUpdate(UpdateView):
     model = Department

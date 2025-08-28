@@ -1,7 +1,6 @@
 from django.contrib import admin
 from apps import approved
 from apps.applications.models import InternshipApplication
-from apps.departments.models import Department
 from matches.models import Match
 from apps.approved.models import Approved
 from progress.models import ProgressView
@@ -14,8 +13,6 @@ from django.utils.encoding import smart_str
 
 from .models import EmailTemplate
 
-# Register base models
-admin.site.register(Department)
 admin.site.register(InternshipApplication)
 
 
