@@ -78,9 +78,80 @@ python manage.py runserver
 
 ---
 
+## Admin/Superuser Access Guide
+
+This section explains how to create superusers for full admin access and how to restrict other admin users to only see specific tables in the Django admin dashboard.
+
+### 1. Create a Superuser (Full Admin)
+- In your terminal, run:
+  ```sh
+  python manage.py createsuperuser
+  ```
+- Enter a username, email, and password when prompted.
+- This user will have full access to all tables and admin features.
+- Log in at: http://127.0.0.1:8000/admin/
+
+### 2. Create a Restricted Admin User
+- Go to **Users** → **Add user** in the Django admin.
+- Enter username, password, and save.
+- On the user change page, check **Staff status** (so they can log in to admin), but leave **Superuser status** unchecked.
+- Assign only the following permissions (in the user’s permissions tab):
+  - Internship applications: Can view/add/change
+  - Departments: Can view/add/change
+  - Matches: Can view/add/change
+  - Approved: Can view/add/change
+  - Progress: Can view/add/change
+- Do NOT assign permissions for other models.
+
+### 3. Restrict Table Visibility
+- In the user’s permissions, only select the above models.
+- When this user logs in, they will only see and manage the tables you allowed.
+- For more advanced restrictions, use Django’s [ModelAdmin permissions](https://docs.djangoproject.com/en/5.2/ref/contrib/admin/#modeladmin-permissions) or a custom admin class.
+
+
+---
+
+## Department User Access Guide
+
+This guide explains how to create department users in Django admin and restrict their access so only users in the 'department' group can log in to the departments portal (`departments.html`).
+
+### 1. Open Django Admin
+Go to: http://127.0.0.1:8000/admin/
+Log in with your superuser (admin) account.
+
+### 2. Ensure the Group Exists
+- In the left menu, click **Groups** → **Add Group**.
+- Name: `department` (exact lowercase) → Save.
+
+### 3. Create the User
+- Left menu → **Users** → **Add user**.
+- Enter Username (e.g., `dep_it`), Password, Confirm password → Save.
+
+### 4. Assign Group
+- After saving, you’ll see the user’s change page.
+- **Groups** → move `department` to Selected groups → Save.
+- Leave Staff status and Superuser status unchecked.
+
+### 5. Open the Portal (if closed)
+- Left menu → **Departments portal config**.
+- Set it to OPEN or use action “Open for 7 days” → Save.
+
+### 6. Test Login as Department User
+- Visit: http://127.0.0.1:8000/accounts/login/
+- Log in with the new user.
+- You should be redirected to: http://127.0.0.1:8000/departments/
+
+---
+**Notes:**
+- Access is granted by group membership only (`department`). No extra permissions needed.
+- Admins can access everything; department users only see `/departments/`.
+
+---
+
+
 ## Usage
 
-- **Admin Panel:** Manage students, departments, matches, and approvals at  
+- **Admin Panel:** Manage students, departments, department users matches, and approvals at  
   👉 http://127.0.0.1:8000/admin/
 - **Students:** Apply for internships through the application form at `/apply/`.
 - **Departments:** Submit requirements via the department portal at `/departments/`.
@@ -134,7 +205,7 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 This project is licensed under the MIT License.
 
 ## License
-This project is proprietary and intended for internal use by [Organization Name]. Unauthorized copying, distribution, or use is prohibited.
+This project is proprietary and intended for internal use by Space Science and Geospatial Institute. Unauthorized copying, distribution, or use is prohibited.
 
 ---
 
