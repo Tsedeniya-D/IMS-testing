@@ -11,5 +11,4 @@ urlpatterns = [
     path('departments/', department_submission, name='department_submission'),
     path('depsuccess/', department_success, name='department_success'),
     path('update/<int:pk>/', DepartmentUpdate.as_view(), name='department_update'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
