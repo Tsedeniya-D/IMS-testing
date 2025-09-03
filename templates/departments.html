@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +67,7 @@
             z-index: 1000;
             text-align: center;
             padding: 20px 0;
-            background: rgba(8, 63, 118, 0.95);
+            background:white;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             transition: var(--transition);
@@ -76,7 +75,7 @@
 
         header.scrolled {
             padding: 15px 0;
-            background: rgba(8, 63, 118, 0.98);
+            background:white;
         }
 
         .logo {
@@ -89,7 +88,6 @@
             border-radius: 6px;
             transition: var(--transition);
         }
-
         .header-buttons {
             position: absolute;
             top: 50%;
@@ -106,7 +104,7 @@
             cursor: pointer;
             transition: var(--transition);
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.15);
+            background:  #1b5674;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -379,7 +377,7 @@
     <!-- Header -->
     <header id="header">
         <img src="http://ssgi.gov.et/wp-content/uploads/2023/04/header-logo.jpg" alt="Ethiopian Space Science and Geospatial Institute" class="logo" />
-        {% if request.user.is_authenticated %}
+         {% if request.user.is_authenticated %}
         <div class="header-buttons" style="position:absolute; top:50%; right:20px; transform:translateY(-50%); display:flex; gap:10px;">
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -395,14 +393,14 @@
         <div class="container">
             <h1>Internship Requirements Submission</h1>
             <p class="description">
-                Submit your department's internship requirements and potential projects for the upcoming cycle.
-                Please provide detailed information to help us match the right candidates to your needs.
-            </p>
+                Submit your department's internship requirement for the upcoming cycle. </p> 
+                 <p class="description"> Please provide detailed information to help us match the right candidates to your needs.</p>
+        
 
             <div class="form-container">
                 <div class="form-header">
-                    <h2><i class="fas fa-clipboard-list"></i> Internship Requirements Form</h2>
-                    <p>Please fill out all required fields to submit your requirements</p>
+                    <h2><i class="fas fa-clipboard-list"></i> Internship Requirement Form</h2>
+                    <p>Please fill out all required fields to submit your requirement</p>
                 </div>
 
                 <div class="form-content">
@@ -417,44 +415,30 @@
                         <input type="hidden" id="fields_and_counts" name="fields_and_counts" value="">
 
                         <div class="form-group">
-                            <label for="department" class="required">Department</label>
+                            <label for="department" class="required">Your Office</label>
                             <select id="department" name="department" required>
-                                <option value="">-- Select Department --</option>
-                                <option value="Aerial Survey Lead Executive">Aerial Survey Lead Executive</option>
-                                <option value="Spatial Decision Support Lead Executive Officer">Spatial Decision Support Lead Executive Office</option>
-                                <option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Office</option>
-                                <option value="Remote Sensing Lead Executive Officer">Remote Sensing Lead Executive Office</option>
-                                <option value="Space and Planetary Science Lead Executive Officer">Space and Planetary Science Lead Executive Office</option>
-                                <option value="Satellite Operation Lead Executive Officer">Satellite Operation Lead Executive Office</option>
-                                <option value="Data and System Administration Lead Executive Officer">Data and System Administration Lead Executive Office</option>
-                                <option value="Space and Geospatial Information Standardization Framework Lead Executive Officer">Space and Geospatial Information Standardization Framework Lead Executive Office</option>
-                                <option value="Platform and Application Development Lead Executive Officer">Platform and Application Development Lead Executive Office</option>
-                                <option value="Photogrammetry and Lidar data Processing Lead Executive Officer">Photogrammetry and Lidar data Processing Lead Executive Office</option>
-                                <option value="Mapping Lead Executive Officer">Mapping Lead Executive Office</option>
-                                <option value="Geodetic Infrastructure and Service Lead Executive Officer">Geodetic Infrastructure and Service Lead Executive Office</option>
-                                <option value="Aerospace Engineering and Satellite Communication Officer">Aerospace Engineering and Satellite Communication Office</option>
-                                <option value="Astronomy and Astrophysics Lead Executive Officer">Astronomy and Astrophysics Lead Executive Office</option>
-                                <option value="Training and Technology Transfer Lead Executive Officer">Training and Technology Transfer Lead Executive Office</option>
-                                <option value="Regional Partnership Lead Executive Officer">Regional Partnership Lead Executive Office</option>
-                                <option value="Geodesy and Geodynamics Lead Executive Officer">Geodesy and Geodynamics Lead Executive Office</option>
-                                <option value="Postgraduate, Registrar and Research Administrative Lead Executive Officer">Postgraduate, Registrar and Research Administrative Lead Executive Office</option>
-                            </select>
+                                <option value="">-- Select Department --</option>                    
+<option value="Aerial Survey Lead Executive Officer">Aerial Survey Lead Executive</option>
+<option value="Aerospace Engineering and Satellite Communication Office">Aerospace Engineering and Satellite Communication Officer</option>
+<option value="Astronomy and Astrophysics Lead Executive Office">Astronomy and Astrophysics Lead Executive Officer</option>
+<option value="Data and System Administration Lead Executive Office">Data and System Administration Lead Executive Officer</option>
+<option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Officer</option>
+<option value="Geodesy and Geodynamics Lead Executive Office">Geodesy and Geodynamics Lead Executive Officer</option>
+<option value="Geodetic Infrastructure and Service Lead Executive Office">Geodetic Infrastructure and Service Lead Executive Officer</option>
+<option value="Mapping Lead Executive Office">Mapping Lead Executive Officer</option>
+<option value="Photogrammetry and Lidar data Processing Lead Executive Office">Photogrammetry and Lidar data Processing Lead Executive Officer</option>
+<option value="Platform and Application Development Lead Executive Office">Platform and Application Development Lead Executive Officer</option>
+<option value="Postgraduate, Registrar and Research Administration Lead Executive Office">Postgraduate, Registrar and Research Administrative Lead Executive Officer</option>
+<option value="Remote Sensing Lead Executive Officer">Remote Sensing Lead Executive Officer</option>
+<option value="Regional Partnership Lead Executive Office">Regional Partnership Lead Executive Officer</option>
+<option value="Satellite Operation Lead Executive Office">Satellite Operation Lead Executive Officer</option>
+<option value="Spatial Decision Support Lead Executive Officer">Spatial Decision Support Lead Executive Officer</option>
+<option value="Space and Geospatial Information Standardization Framework Lead Executive Office">Space and Geospatial Information Standardization Framework Lead Executive Officer</option>
+<option value="Space and Planetary Science Lead Executive Officer">Space and Planetary Science Lead Executive Officer</option>
+<option value="Training and Technology Transfer Lead Executive Office">Training and Technology Transfer Lead Executive Officer</option>
+                      </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="contactPerson" class="required">Contact Person</label>
-                            <input type="text" id="contactPerson" name="contactPerson" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="required">Email</label>
-                            <input type="email" id="email" name="email" >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
+                       
 
                         <div class="form-group">
                             <label for="internCount" class="required">Total Number of Interns Needed</label>
@@ -482,7 +466,7 @@
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field3" name="fields" value="Geospatial Engineering">
-                                        <label for="field3">Geospatial Engineering</label>
+                                        <label for="field3">Mechanical Engineering</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
@@ -496,7 +480,7 @@
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field5" name="fields" value="Geoinformatics">
-                                        <label for="field5">Geoinformatics</label>
+                                        <label for="field5">Civil Engineering</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
@@ -510,28 +494,28 @@
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field7" name="fields" value="Geodesy">
-                                        <label for="field7">Geodesy</label>
+                                        <label for="field7">Electro Mechanical</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field8" name="fields" value="Aerospace Engineering">
-                                        <label for="field8">Aerospace Engineering</label>
+                                        <label for="field8">Information Science</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field9" name="fields" value="Astronomy">
-                                        <label for="field9">Astronomy</label>
+                                        <label for="field9">Computer Science and Engineering</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
                                 <div class="field-item">
                                     <div class="field-input">
                                         <input type="checkbox" id="field10" name="fields" value="Astrophysics">
-                                        <label for="field10">Astrophysics</label>
+                                        <label for="field10">Business Management</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
                                 </div>
@@ -588,14 +572,17 @@
 
                         <div class="form-group">
                             <label for="skills">Required Skills (optional)</label>
-                            <textarea id="skills" name="skills" class="form-control" placeholder="List any specific skills or qualifications you require from an intern(e.g., programming languages like python, laravel, software proficiency, etc.)"></textarea>
+                            <textarea id="skills" name="skills" class="form-control" placeholder="List any specific skills or qualifications in relation with your departmrnt (E.g Software engineering:python)"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="potential_project">Potential Project (optional)</label>
-                            <textarea id="potential_project" name="potential_project" class="form-control" placeholder="Please describe the potential projects that interns could possibly work on and any other relevant details..."></textarea>
+                            <label for="potential_project" class="required">Potential Project</label>
+                            <textarea id="potential_project" name="potential_project" class="form-control" placeholder="Please describe the potential projects that interns could work on, including project goals, required skills, expected outcomes, and any other relevant details..."></textarea>
                         </div>
-
+                        <div class="form-group">
+                            <label for="Mentor">Mentor</label>
+                            <input type="text" id="mentor" name="mentor" optional>
+                        </div>
                         <div class="submit-container">
                             <button type="submit" class="submit-btn">
                                 <i class="fas fa-paper-plane"></i> Submit Requirements
@@ -613,7 +600,7 @@
     const form = document.getElementById('internshipForm');
     const successMessage = document.getElementById('successMessage');
     const submitBtn = document.querySelector('.submit-btn');
-   
+
     // === Storage Key ===
     const storageKey = 'internshipSubmissions';
 
@@ -626,7 +613,7 @@
         }
     });
 
-    
+
     // === Show/Hide "Other" Field ===
     document.getElementById('field16').addEventListener('change', function() {
         document.getElementById('otherField').style.display = this.checked ? 'block' : 'none';
@@ -671,18 +658,14 @@
         return total;
     }
 
-    // === Load Submission by Email on Page Load ===
-    
 
     function loadSubmissionIntoForm(sub) {
         document.getElementById('submissionId').value = sub.id;
         document.getElementById('department').value = sub.department;
-        document.getElementById('contactPerson').value = sub.contactPerson;
-        document.getElementById('email').value = sub.email;
-        document.getElementById('phone').value = sub.phone;
         document.getElementById('internCount').value = sub.internCount;
         document.getElementById('skills').value = sub.skills;
         document.getElementById('potential_project').value = sub.potential_project;
+        document.getElementById('mentor').value = sub.mentor;
 
         // Reset all fields
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -720,8 +703,8 @@
         calculateFieldsTotal();
     }
 
-    // === Reset Form UI to Initial State ===
     
+
     // === Get Form Data ===
     function getFormData() {
         const fields = [];
@@ -739,13 +722,11 @@
         return {
             id: document.getElementById('submissionId').value || 'sub-' + Date.now(),
             department: document.getElementById('department').value,
-            contactPerson: document.getElementById('contactPerson').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
             internCount: document.getElementById('internCount').value,
             fields: fields,
             skills: document.getElementById('skills').value,
             potential_project: document.getElementById('potential_project').value,
+            mentor: document.getElementById('mentor').value,
             timestamp: new Date().toISOString()
         };
     }
@@ -753,20 +734,15 @@
     // === Validate Form ===
     function validateForm() {
         const department = document.getElementById('department').value;
-        const contactPerson = document.getElementById('contactPerson').value;
-        const email = document.getElementById('email').value;
+        const mentor = document.getElementById('mentor').value;
         const internCount = document.getElementById('internCount').value;
         const fields = document.querySelectorAll('input[name="fields"]:checked');
 
-        if (!department || !contactPerson || !email || !internCount || fields.length === 0) {
+        if (!department || !mentor || !internCount || fields.length === 0) {
             alert('Please fill in all required fields');
             return false;
         }
 
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            alert('Please enter a valid email address');
-            return false;
-        }
 
         const fieldsTotal = calculateFieldsTotal();
         if (fieldsTotal !== parseInt(internCount)) {

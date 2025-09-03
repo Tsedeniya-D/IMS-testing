@@ -819,6 +819,66 @@
     padding: 50px 0 20px;
     font-family: 'Arial', sans-serif;
 }
+/* === Footer alignment + contact list fixes === */
+footer .container {            /* override the global centered container */
+  text-align: left;
+}
+
+footer .footer-column {        /* keep all footer text left-aligned */
+  text-align: left;
+}
+
+/* Make both Quick Links and Contact items align neatly */
+.footer-links,
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li,
+.contact-list li {
+  margin-bottom: 12px;
+}
+
+/* Ensure all quick links share the same look */
+.footer-links a {
+  display: flex;               /* you already had this — keep it consistent */
+  align-items: center;
+  gap: 8px;
+}
+
+/* Uniform chevron/prefix width so text lines up */
+.footer-links a .chev {
+  width: 18px;
+  display: inline-flex;
+  justify-content: center;
+  flex: 0 0 18px;
+}
+
+/* Contact items: icon + text align perfectly */
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-list .icon {
+  width: 22px;                 /* fixed icon column = tidy indentation */
+  display: inline-flex;
+  justify-content: center;
+  flex: 0 0 22px;
+  line-height: 1;
+}
+
+.contact-list a {
+  color: #cfd8dc;
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  color: #4f73ff;
+}
 
 .container {
     width: 90%;
@@ -1321,12 +1381,12 @@
         <div class="faq-item">
           <div class="faq-question">Is the internship paid?</div>
           <div class="faq-answer">
-NO, its not paid.          </div>
+Unfortunately NO, we don't have any compensation or stipend money.</div>
         </div>
         <div class="faq-item">
           <div class="faq-question">Can international students apply?</div>
           <div class="faq-answer">
-            Currently, the program is open to Ethiopian citizens and residents. We are working on expanding our international collaboration programs in the future.
+            Yes, but with limited numbers.
           </div>
         </div>
         <div class="faq-item">
@@ -1338,9 +1398,17 @@ NO, its not paid.          </div>
         <div class="faq-item">
           <div class="faq-question">Do I need prior experience?</div>
           <div class="faq-answer">
-            While prior experience is beneficial, it's not required. We provide comprehensive training to all interns and assign mentors to guide you through your projects.
+            Not really, it's hand-on training to our interns and assign mentors.
           </div>
         </div>
+
+      <div class="faq-item">
+          <div class="faq-question">Where is the internship held at?</div>
+          <div class="faq-answer">
+            The internship is held at Entoto, in labs at our office buliding and Combinations depending on the projects.
+          </div>
+        </div>
+
       </div>
     </div>
     <!-- === Apply Now at the End === -->
@@ -1353,47 +1421,55 @@ NO, its not paid.          </div>
 
       </button>
     </div>
+    
+   
     <!-- Footer -->
-   <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>SSGI Interns</h3>
-                    <p>Advancing space science and geospatial research through innovative internship programs.</p>
-              <div class="social-icons">
-                        <a href="  https://facebook.com/esstiethiopia  " target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://t.me/spacegeospatial  " target="_blank"><i class="fab fa-telegram"></i></a>
-                        <a href="https://linkedin.com/in/space-science-and-geospatial-institute  " target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://twitter.com/ssgi2022  " target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://youtube.com/@ssgi  " target="_blank"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> Space Science Campus, Cosmos Avenue</li>
-                        <li><i class="fas fa-envelope"></i> internships@spacescience.edu</li>
-                        <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</li>
-                    </ul>
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>SSGI Interns</h3>
+                <p>Advancing space science and geospatial research through innovative internship programs.</p>
+                <div class="social-icons">
+                    <a href="https://facebook.com/esstiethiopia" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://t.me/spacegeospatial" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="https://linkedin.com/in/space-science-and-geospatial-institute" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com/ssgi2022" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://youtube.com/@ssgi" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2025 Space and Geospatial Institute. All rights reserved.</p>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <div class="footer-buttons" id="footerbuttons"></div>
+                    
+                    <li><a href="/departments"><i class="fas fa-chevron-right"></i> Departments</a></li>
+                   <a href="/admin/login/"><i class="fas fa-chevron-right"></i> Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="https://maps.app.goo.gl/WZyCpHwDnzg6WndX6" target="_blank">
+                            <i class="fas fa-map"></i> Space Science Campus, Cosmos Avenue, Entoto
+                        </a>
+                    </li>
+                    <li><i class="fas fa-phone"></i> +251-11-123-4567</li>
+                    <li><i class="fas fa-envelope"></i> internships@spacescience.edu</li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 5:00 PM</li>
+                </ul>
+                <p style="font-size: 0.9rem; color: #cfd8dc; margin-top: 10px;">
+                    Project based internship program - SSGI Interns
+                </p>
             </div>
         </div>
-    </footer>
+        <div class="copyright">
+            <p>&copy; 2025 Space and Geospatial Institute. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
   </main>
   <!-- Back to Top Button -->
   <button class="back-to-top" id="backToTop">
@@ -1586,6 +1662,7 @@ NO, its not paid.          </div>
         icon.classList.replace('fa-bars', 'fa-times');
       } else {
         icon.classList.replace('fa-times', 'fa-bars');
+
       }
     });
     

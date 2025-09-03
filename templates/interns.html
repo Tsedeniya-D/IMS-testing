@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -589,26 +588,21 @@ nav a:hover {
                             </div>
                         </div>
 
-                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="form-group">
                             <label for="email">Email Address<span class="required-star">*</span></label>
                             <input type="email" id="email" name="email" class="form-control" required>
                             <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
-                        </div>
-
-                        <div class="form-row">
+                            </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number<span class="required-star">*</span></label>
                                 <input type="tel" id="phone" name="phone" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">City<span class="required-star">*</span></label>
-                                <input type="text" id="city" name="city" class="form-control" required>
                             </div>
                         </div>
                         <!-- Add after the "City" field and before the "Institution/Organization" field in the application form -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="university">University (Ethiopia)<span class="required-star">*</span></label>
+                                <label for="university">University<span class="required-star">*</span></label>
                                 <select id="university" name="university" class="form-control">
                                     <option value="">Select University</option>
                                     <option>Addis Ababa University (AAU)</option>
@@ -646,16 +640,21 @@ nav a:hover {
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nationality">Nationality<span class="required-star">*</span></label>
-                                <input type="text" id="nationality" name="nationality" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address<span class="required-star">*</span></label>
-                                <input type="text" id="address" name="address" class="form-control" required>
-                            </div>
-                        </div>
+                       <div class="form-row">
+    <div class="form-group">
+        <label for="nationality">Nationality<span class="required-star">*</span></label>
+        <input type="text" id="nationality" name="nationality" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Address<span class="required-star">*</span></label>
+        <input type="text" id="address" name="address" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="city">City<span class="required-star">*</span></label>
+        <input type="text" id="city" name="city" class="form-control" required>
+    </div>
+</div>
+
 
                         <div class="form-row">
                             <div class="form-group">
@@ -687,13 +686,16 @@ nav a:hover {
                             <select id="department" name="department" class="form-control" required>
                                 <option value="">Select Department</option>
                                 <option>Accounting</option>
+                                <option>Agricultural Economics</option>
                                 <option>Agricultural Engineering</option>
                                 <option>Agriculture</option>
+                                <option>Animal Science</option>
                                 <option>Anthropology</option>
                                 <option>Architecture</option>
                                 <option>Biochemistry</option>
                                 <option>Biology</option>
                                 <option>Biomedical Engineering</option>
+                                <option>Biotechnology</option>
                                 <option>Business Administration</option>
                                 <option>Chemical Engineering</option>
                                 <option>Chemistry</option>
@@ -701,41 +703,67 @@ nav a:hover {
                                 <option>Communication</option>
                                 <option>Computer Engineering</option>
                                 <option>Computer Science</option>
+                                <option>Construction Technology and Management</option>
                                 <option>Criminology</option>
+                                <option>Curriculum and Instruction</option>
                                 <option>Data Science</option>
                                 <option>Design</option>
+                                <option>Development Studies</option>
                                 <option>Economics</option>
                                 <option>Education</option>
+                                <option>Educational Planning and Management</option>
                                 <option>Electrical Engineering</option>
                                 <option>Electronics Engineering</option>
+                                <option>Environmental Engineering</option>
                                 <option>Environmental Science</option>
                                 <option>Finance</option>
+                                <option>Food Science and Technology</option>
+                                <option>Forestry</option>
                                 <option>Geography</option>
                                 <option>Geology</option>
+                                <option>Health Informatics</option>
                                 <option>History</option>
+                                <option>Horticulture</option>
+                                <option>Hydraulic Engineering</option>
                                 <option>Information Systems</option>
                                 <option>Information Technology</option>
                                 <option>International Relations</option>
+                                <option>Journalism</option>
                                 <option>Law</option>
                                 <option>Linguistics</option>
                                 <option>Management</option>
                                 <option>Marketing</option>
+                                <option>Materials Science and Engineering</option>
                                 <option>Mathematics</option>
                                 <option>Mechanical Engineering</option>
                                 <option>Medicine</option>
                                 <option>Microbiology</option>
+                                <option>Mining Engineering</option>
+                                <option>Natural Resource Management</option>
+                                <option>Nursing</option>
+                                <option>Pharmacy</option>
                                 <option>Philosophy</option>
                                 <option>Physics</option>
+                                <option>Plant Science</option>
                                 <option>Political Science</option>
                                 <option>Psychology</option>
                                 <option>Public Administration</option>
+                                <option>Public Health</option>
+                                <option>Social Work</option>
                                 <option>Sociology</option>
                                 <option>Software Engineering</option>
+                                <option>Special Needs Education</option>
                                 <option>Statistics</option>
+                                <option>Surveying Engineering</option>
+                                <option>Teacher Education</option>
+                                <option>Textile Engineering</option>
+                                <option>Tourism Management</option>
                                 <option>Urban Planning</option>
                                 <option>Veterinary Medicine</option>
+                                <option>Water Resources Engineering</option>
+                                <option>Wood Technology</option>
                                 <option>Zoology</option>
-                                <!-- Add more as needed -->
+                                <option>Other</option>
                             </select>
                         </div>
 
@@ -782,7 +810,7 @@ nav a:hover {
                         
                         <div class="form-group">
                             <label for="skills">Skills & Qualifications</label>
-                            <textarea id="skills" name="skills" class="form-control" rows="3" placeholder="List your relevant skills and qualifications(e.g python, web development, cartography.........)"></textarea>
+                            <textarea id="skills" name="skills" class="form-control" rows="3" placeholder="List your relevant skills and qualifications related to your field of study(e.g python, web development, cartography.........)"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -799,7 +827,7 @@ nav a:hover {
                             <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
                         </div>
                         <div class="form-group">
-                            <label for="recommendationLetter">Internship Introduction Letter (PDF)<span class="required-star">*</span></label>
+                            <label for="recommendationLetter">Letter from University for Internship  (PDF)<span class="required-star">*</span></label>
                             <input type="file" id="recommendationLetter" name="recommendationLetter" class="form-control" accept=".pdf" required>
                         </div>
 

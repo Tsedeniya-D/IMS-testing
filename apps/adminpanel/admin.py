@@ -13,7 +13,14 @@ from django.utils.encoding import smart_str
 
 from .models import EmailTemplate
 
-admin.site.register(InternshipApplication)
+@admin.register(InternshipApplication)
+class InternshipApplicationAdmin(admin.ModelAdmin):
+    list_display = [
+        'first_name', 'last_name', 'age', 'email', 'phone', 'city', 'university', 'college_name',
+        'nationality', 'address', 'education_level', 'cgpa', 'passport_id', 'department',
+        'current_year', 'expected_graduation', 'duration', 'start_date', 'end_date', 'skills',
+        'interests', 'motivation_letter', 'resume', 'recommendation_letter', 'submitted_at'
+    ]
 
 
 @admin.register(Match)

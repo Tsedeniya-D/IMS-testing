@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
 from .forms import DepartmentForm
+from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from .decorators import departments_open_required, department_user_required
@@ -26,13 +27,11 @@ def department_submission(request):
         # Create the department entry
         department = Department.objects.create(
             department=data.get('department'),
-            contact_person=data.get('contactPerson'),
-            email=data.get('email'),
-            phone=data.get('phone'),
             intern_count=int(data.get('internCount') or 0),
             fields_and_counts=fields_and_counts,
             skills=data.get('skills'),
-            potential_project=data.get('potential_project')
+            potential_project=data.get('potential_project'),
+            mentor=data.get('mentor')
         )
 
         request.session['department_saved'] = True
@@ -61,13 +60,11 @@ def department_update(request):
         try:
             department = Department.objects.get(id=submission_id)
             department.department = data.get('department')
-            department.contact_person = data.get('contactPerson')
-            department.email = data.get('email')
-            department.phone = data.get('phone')
             department.intern_count = int(data.get('internCount') or 0)
             department.fields_and_counts = data.get('fields')
             department.skills = data.get('skills')
             department.potential_project = data.get('potential_project')
+            department.mentor = data.get('mentor')
             department.save()
             return JsonResponse({'success': True})
         except Department.DoesNotExist:
@@ -83,3 +80,10 @@ class DepartmentUpdate(UpdateView):
     form_class = DepartmentForm
     template_name = 'departments.html'  # Use your actual template path
     success_url = '/departments/'       # Redirect after successful update
+
+# class DepartmentLoginView(LoginView):
+#     template_name = 'dep_login.html'
+
+# @login_required(login_url='/departments/login/')
+# def department_requirements(request):
+#     return render(request, 'departments.html')

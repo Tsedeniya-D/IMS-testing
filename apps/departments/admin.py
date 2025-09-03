@@ -54,6 +54,11 @@ class DepartmentPortalConfigAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ("department", "contact_person", "email", "phone", "intern_count", "submitted_at")
-    search_fields = ("department", "contact_person", "email")
-    list_filter = ("submitted_at",)
+    list_display = [
+        'department',
+        'intern_count',
+        'skills',
+        'potential_project',
+        'mentor',
+        'fields_and_counts',
+    ]
