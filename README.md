@@ -8,14 +8,14 @@ This project helps organizations manage internships by allowing students to appl
 
 ## Features
 
-- 📝 **Student Applications** – Students can apply for internship opportunities via an online form.
-- 🏢 **Department Management** – Departments submit requirements, specify preferred fields and number of interns, and view assigned interns.
-- ✅ **Approval Workflow** – Admins review, approve, or reject applications and department requirements.
-- 🔗 **Matching Algorithm** – Matches interns to departments based on skills, interests, and department needs.
-- 📊 **Dashboard** – Track approved interns, assigned departments, pending matches, and statistics.
-- 💾 **Database Integration** – All data is stored securely in PostgreSQL, including applications, department requirements, matches, and approvals.
-- 📂 **Export Support** – Generate reports (Excel/CSV) for approved internships and department assignments.
-- 🔒 **Admin Panel** – Manage students, departments, matches, and approvals with custom actions and filters.
+-  **Student Applications** – Students can apply for internship opportunities via an online form.
+-  **Department Management** – Departments submit requirements, specify preferred fields and number of interns, and view assigned interns.
+-  **Approval Workflow** – Admins review, approve, or reject applications and department requirements.
+-  **Matching Algorithm** – Matches interns to departments based on skills, interests, and department needs.
+-  **Dashboard** – Track approved interns, assigned departments, pending matches, and statistics.
+-  **Database Integration** – All data is stored securely in PostgreSQL, including applications, department requirements, matches, and approvals.
+-  **Export Support** – Generate reports (Excel/CSV) for approved internships and department assignments.
+-  **Admin Panel** – Manage students, departments, matches, and approvals with custom actions and filters.
 
 ---
 
@@ -199,10 +199,6 @@ intern/
 Contributions are welcome! Please fork the repository and submit a pull request.
 
 ---
-
-## License
-
-This project is licensed under the MIT License.
 
 ## License
 This project is proprietary and intended for internal use by Space Science and Geospatial Institute. Unauthorized copying, distribution, or use is prohibited.
