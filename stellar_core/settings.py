@@ -29,7 +29,7 @@ sys.path.append(str(BASE_DIR / "apps"))
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_40n1*s24_8$0iso%u_x@-xl#$-m+pz&)(r8bb&#_h7nkua$++'
+# SECRET_KEY = 'django-insecure-_40n1*s24_8$0iso%u_x@-xl#$-m+pz&)(r8bb&#_h7nkua$++'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,16 +158,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+
+
+
+
+
 # =======================
 # Email Configuration
 # =======================
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'haniabesha667@gmail.com'
-EMAIL_HOST_PASSWORD = 'tale nots xkjy qjxi'  # NOT your Gmail password — use an app password
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+from django.core.mail.message import EmailMessage
+EmailMessage.encoding = 'utf-8'
+
+
+SECRET_KEY = config("SECRET_KEY", default="unsafe-secret-key")
+
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")  
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 # Authentication redirects
 LOGIN_REDIRECT_URL = '/departments/'
