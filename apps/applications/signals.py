@@ -11,10 +11,21 @@ def auto_match_intern(sender, instance, created, **kwargs):
         return
 
     student_major = instance.department
-    if not student_major:
+    if student_major is None:
         return
 
-    student_major_lower = student_major.strip().lower()
+    if isinstance(student_major, Department):
+        student_major_value = student_major.department
+    else:
+        student_major_value = student_major
+
+    if student_major_value is None:
+        return
+
+    student_major_lower = str(student_major_value).strip().lower()
+    if not student_major_lower:
+        return
+    student_major_str = student_major_lower
     matching_depts = []
     all_departments = Department.objects.all()
 
@@ -33,10 +44,10 @@ def auto_match_intern(sender, instance, created, **kwargs):
         current_field_count = Match.objects.filter(
             department=dept,
             status__in=['pending', 'approved'],
-            student_department__iexact=student_major.strip()
+            student_department__iexact=student_major_str
         ).count()
 
-        print(f"Dept: {dept.department}, Field: {student_major.strip()}, Capacity: {field_capacity}, Current count: {current_field_count}")
+        print(f"Dept: {dept.department}, Field: {student_major_str}, Capacity: {field_capacity}, Current count: {current_field_count}")
 
         if current_field_count < field_capacity:
             available_depts.append((dept, current_field_count))
@@ -53,7 +64,7 @@ def auto_match_intern(sender, instance, created, **kwargs):
         department=dept,
         defaults={
             'status': status,
-            'student_department': student_major.strip()
+            'student_department': student_major_str
         }
     )
 
