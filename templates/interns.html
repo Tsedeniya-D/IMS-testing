@@ -859,8 +859,31 @@ nav a:hover {
     //    // institutionField.style.display = tabType === 'institutional' ? 'block' : 'none';
     }
 
-    // Initialize date input to today
-    document.getElementById('start_date').valueAsDate = new Date();
+    // Initialize date inputs to tomorrow and enforce min dates
+    function toISODate(date) {
+        return date.toISOString().split('T')[0];
+    }
+
+    const today = new Date();
+    const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    const minDate = toISODate(tomorrow);
+    startDateInput.min = minDate;
+    endDateInput.min = minDate;
+
+    startDateInput.value = minDate;
+
+    startDateInput.addEventListener('change', () => {
+        if (startDateInput.value) {
+            endDateInput.min = startDateInput.value;
+            if (endDateInput.value && endDateInput.value < startDateInput.value) {
+                endDateInput.value = startDateInput.value;
+            }
+        }
+    });
 
     // Progress tracking simulation
     setTimeout(() => {
