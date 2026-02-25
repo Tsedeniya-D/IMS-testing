@@ -1,4 +1,4 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +27,7 @@
     }
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f8f9fa url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background: #f8f9fa url('{% static "images/bg-space.jpg" %}') no-repeat center center fixed;
       background-size: cover;
       color: var(--text-color);
       line-height: 1.8;
@@ -1193,7 +1193,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
 <body>
   <!-- Header -->
   <header id="header">
-    <img src="http://ssgi.gov.et/wp-content/uploads/2023/04/header-logo.jpg" alt="ESSGI Logo" class="logo" />
+    <img src="{% static 'images/logo.jpg' %}" alt="ESSGI Logo" class="logo" />
     <button class="mobile-menu-toggle" id="mobileMenuToggle">
       <i class="fas fa-bars"></i>
     </button>
@@ -1207,7 +1207,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
     <!-- === Advanced Slideshow === -->
     <div class="slideshow-container section" id="slideshow">
       <div class="slide active">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyTiOCaV5XtFlIm920hllEj7Cny-_z29H6QN26ZAZ7FSaxrwMLO9MmtuFVkfFcDNT9iVAaQXKXxdGIH1oSIS571ztpkrdlVWjlveiq_qFRK60j7FRUTcxFCU_01X4TrmRcOk8JF=s1360-w1360-h1020-rw" alt="Space Research" class="slide-image">
+        <img src="{% static 'images/slide-1.jpg' %}" alt="Space Research" class="slide-image">
         <div class="slide-content">
           <h2 class="slide-title">Space Science and Geospatial Institute</h2>
           <p class="slide-description">Our institute conducts cutting-edge research in space science, planetary exploration, and satellite technology to advance Ethiopia's space capabilities and contribute to global scientific knowledge.</p>
@@ -1227,7 +1227,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
         </div>
       </div>
       <div class="slide">
-        <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzXcxo1lXJ36BwkHNfRwjC18a5IMhSxL4joFm9XsgljtztDLOXtNCgLoZ5DlmDvjEb8y2z8QRvrwy1femHTYqTKSWLTP8rEyn5Rj6lrGBlD_RC1MZHU8GGK0JdAR2DE49MPndFfkzcX4hBV=s1360-w1360-h1020-rw" alt="Space Research" class="slide-image">
+        <img src="{% static 'images/slide-2.jpg' %}" alt="Space Research" class="slide-image">
         <div class="slide-content">
           <h2 class="slide-title">Space and Planetary Science Lead Executive</h2>
           <p class="slide-description">Harnessing geospatial technologies for sustainable development, environmental monitoring, and disaster management across Ethiopia. </p>
@@ -1247,7 +1247,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
         </div>
       </div>
       <div class="slide">
-        <img src="https://wallpaperaccess.com/full/186464.jpg" alt="Satellite Operations" class="slide-image">
+        <img src="{% static 'images/slide-3.jpg' %}" alt="Satellite Operations" class="slide-image">
         <div class="slide-content">
           <h2 class="slide-title">Aerospace Engineering and Satellite Communication</h2>
           <p class="slide-description">Operating and analyzing data from Ethiopia's first satellite, ETRSS-1, for agricultural monitoring, water resource management, and climate studies.</p>
@@ -1267,7 +1267,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
         </div>
       </div>
       <div class="slide">
-        <img src="https://www.aspistrategist.org.au/wp-content/uploads/2022/08/52231412818_b8b48198ae_c.jpg" alt="Space Exploration" class="slide-image">
+        <img src="{% static 'images/slide-4.jpg' %}" alt="Space Exploration" class="slide-image">
         <div class="slide-content">
           <h2 class="slide-title">Regional Partnership</h2>
           <p class="slide-description">Exploring the cosmos with advanced telescopes and satellite systems. Our space exploration initiatives focus on understanding planetary systems, space weather, and celestial phenomena.</p>
@@ -1287,7 +1287,7 @@ footer .footer-column {        /* keep all footer text left-aligned */
         </div>
       </div>
       <div class="slide">
-        <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80" alt="Astronomy and Space" class="slide-image">
+        <img src="{% static 'images/slide-5.jpg' %}" alt="Astronomy and Space" class="slide-image">
         <div class="slide-content">
           <h2 class="slide-title">Astronomy & Space Science</h2>
           <p class="slide-description">Advancing astronomical research and space science through observation, data analysis, and international collaboration.</p>
@@ -1320,27 +1320,23 @@ footer .footer-column {        /* keep all footer text left-aligned */
     <div class="container section">
       <div class="boxes-container">
         <div class="box">
-          <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" 
-               alt="Project Overview" 
-               onerror="this.src='https://via.placeholder.com/300x180/083f76/FFFFFF?text=Project+Overview';">
+          <img src="{% static 'images/box-project.jpg' %}"
+            alt="Project Overview">
           <h3><i class="fas fa-telescope"></i> Project Overview</h3>
           <p>Explore our current research initiatives and how interns can contribute.</p>
         </div>
         <div class="box">
-          <img src="https://media.istockphoto.com/id/1478060507/photo/internship-programs-concept-chart-with-keywords-and-icons-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=Olv61cFGKy3BVBBbnk72LxdZATLW85bv7Due5L_LtxA=" alt="Eligibility Criteria" 
-               onerror="this.src='https://via.placeholder.com/300x180/083f76/FFFFFF?text=Eligibility';">
+          <img src="{% static 'images/box-eligibility.webp' %}" alt="Eligibility Criteria">
           <h3><i class="fas fa-user-check"></i> Eligibility Criteria</h3>
           <p>Learn about the qualifications and requirements for the internship program.</p>
         </div>
         <div class="box">
-          <img src="https://media.istockphoto.com/id/1386419760/photo/communication-technology.jpg?s=1024x1024&w=is&k=20&c=VoCeeG5t1d90X_n1cBDO4ycidc5hIHHGDiIvvG4Wewo=" alt="Application Process" 
-               onerror="this.src='https://via.placeholder.com/300x180/083f76/FFFFFF?text=Apply+Now';">
+          <img src="{% static 'images/box-application.jpg' %}" alt="Application Process">
           <h3><i class="fas fa-file-alt"></i> Application Process</h3>
           <p>Discover how to apply and what materials are required for submission.</p>
         </div>
         <div class="box">
-          <img src="https://images.unsplash.com/photo-1666983878133-d51b3c2d2de9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Benefits" 
-               onerror="this.src='https://via.placeholder.com/300x180/083f76/FFFFFF?text=Benefits';">
+          <img src="{% static 'images/box-benefits.jpg' %}" alt="Benefits">
           <h3><i class="fas fa-award"></i> Benefits</h3>
           <p>Understand the skills and opportunities you'll gain as an intern.</p>
         </div>
@@ -1413,13 +1409,11 @@ Unfortunately NO, we don't have any compensation or stipend money.</div>
     </div>
     <!-- === Apply Now at the End === -->
     <div class="apply-now-container">
-        <div class="apply-btn-container">
- <a href="{% url 'interns' %}" class="apply-now-slide-btn">
-            <i class="fas fa-rocket"></i> Apply Now
-          </a></a>
-</div>
-
-      </button>
+      <div class="apply-btn-container">
+        <a href="{% url 'interns' %}" class="apply-now-slide-btn">
+          <i class="fas fa-rocket"></i> Apply Now
+        </a>
+      </div>
     </div>
     
    
@@ -1441,11 +1435,9 @@ Unfortunately NO, we don't have any compensation or stipend money.</div>
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <div class="footer-buttons" id="footerbuttons"></div>
-                    
-                    <li><a href="/departments"><i class="fas fa-chevron-right"></i> Departments</a></li>
-                   <a href="/admin/login/"><i class="fas fa-chevron-right"></i> Admin</a></li>
+                  <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+                  <li><a href="/departments/"><i class="fas fa-chevron-right"></i> Departments</a></li>
+                  <li><a href="/admin/login/"><i class="fas fa-chevron-right"></i> Admin</a></li>
                 </ul>
             </div>
             <div class="footer-column">
