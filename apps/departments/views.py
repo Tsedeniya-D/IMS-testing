@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from .decorators import departments_open_required, department_user_required
+from .utils import normalize_fields_and_counts
 
 @login_required
 @department_user_required
@@ -22,6 +23,8 @@ def department_submission(request):
             fields_and_counts = json.loads(data.get('fields_and_counts')) if data.get('fields_and_counts') else []
         except json.JSONDecodeError:
             fields_and_counts = []
+
+        fields_and_counts = normalize_fields_and_counts(fields_and_counts)
 
 
         # Create the department entry
@@ -61,7 +64,7 @@ def department_update(request):
             department = Department.objects.get(id=submission_id)
             department.department = data.get('department')
             department.intern_count = int(data.get('internCount') or 0)
-            department.fields_and_counts = data.get('fields')
+            department.fields_and_counts = normalize_fields_and_counts(data.get('fields'))
             department.skills = data.get('skills')
             department.potential_project = data.get('potential_project')
             department.mentor = data.get('mentor')

@@ -10,6 +10,8 @@ from django.utils.html import format_html
 import openpyxl
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from apps.departments.models import Department
+from apps.departments.utils import normalize_fields_and_counts
 
 from .models import EmailTemplate
 
@@ -77,8 +79,7 @@ class MatchAdmin(admin.ModelAdmin):
         for dept in departments:
             required_majors = [
                 item['field'].strip().lower()
-                for item in dept.fields_and_counts
-                if 'field' in item
+                for item in normalize_fields_and_counts(dept.fields_and_counts)
             ]
 
             for app in applications:

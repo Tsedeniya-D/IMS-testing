@@ -2,6 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from apps.applications.models import InternshipApplication
 from apps.departments.models import Department
+from apps.departments.utils import required_fields_map
 from matches.models import Match
 
 @receiver(post_save, sender=InternshipApplication)
@@ -18,26 +19,7 @@ def auto_match_intern(sender, instance, created, **kwargs):
     all_departments = Department.objects.all()
 
     for dept in all_departments:
-        fields_and_counts = dept.fields_and_counts
-        if isinstance(fields_and_counts, dict):
-            fields_and_counts = [fields_and_counts]
-        elif not isinstance(fields_and_counts, list):
-            fields_and_counts = []
-
-        required_fields = {}
-        for item in fields_and_counts:
-            if not isinstance(item, dict):
-                continue
-            field_name = item.get('field')
-            count_value = item.get('count')
-            if not field_name:
-                continue
-            try:
-                count_value = int(count_value)
-            except (TypeError, ValueError):
-                continue
-
-            required_fields[field_name.strip().lower()] = count_value
+        required_fields = required_fields_map(dept.fields_and_counts)
 
         if student_major_lower in required_fields:
             matching_depts.append((dept, required_fields[student_major_lower]))
