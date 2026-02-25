@@ -6,6 +6,7 @@ from django.contrib import admin, messages
 from django.utils import timezone
 from .models import DepartmentPortalConfig, Department
 from django.shortcuts import redirect
+from .utils import normalize_fields_and_counts
 
 
 @admin.register(DepartmentPortalConfig)
@@ -60,5 +61,15 @@ class DepartmentAdmin(admin.ModelAdmin):
         'skills',
         'potential_project',
         'mentor',
-        'fields_and_counts',
+        'get_fields_and_counts',
     ]
+
+    def get_fields_and_counts(self, obj):
+        fields = normalize_fields_and_counts(obj.fields_and_counts)
+        if not fields:
+            return "—"
+        return ", ".join(
+            f"{item['field']}: {item['count']}"
+            for item in fields
+        )
+    get_fields_and_counts.short_description = 'Fields and Counts'

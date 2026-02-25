@@ -58,7 +58,13 @@ class MatchAdmin(admin.ModelAdmin):
     get_department_name.short_description = 'Institution Department'
 
     def get_department_fields(self, obj):
-        return obj.department.fields_and_counts
+        fields = normalize_fields_and_counts(obj.department.fields_and_counts)
+        if not fields:
+            return "—"
+        return ", ".join(
+            f"{item['field']}: {item['count']}"
+            for item in fields
+        )
     get_department_fields.short_description = 'Fields and Counts'
 
     def get_department_skills(self, obj):
