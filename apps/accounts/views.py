@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from apps.departments.models import Department
 
 
@@ -12,6 +13,7 @@ def home(request):
     return render(request, 'home.html')
 def interns(request):
     return render(request, 'interns.html')
+@login_required
 def departments(request):
     return render(request, 'departments.html')
 
