@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.adminpanel.simple_middleware.SimpleSessionMiddleware',
 ]
 
 ROOT_URLCONF = 'stellar_core.urls'
@@ -131,7 +132,25 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# Session Security Settings
+# https://docs.djangoproject.com/en/5.2/topics/http/sessions/
 
+# Session timeout (15 minutes)
+SESSION_COOKIE_AGE = 900  # 15 minutes in seconds
+
+# Expire session on browser close
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Secure session cookies
+SESSION_COOKIE_SECURE = DEBUG is False  # Only send over HTTPS in production
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
+SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+
+
+# Admin site configuration
+ADMIN_SITE_HEADER = "Intern Admin Dashboard"
+ADMIN_SITE_TITLE = "Intern Admin Dashboard"
+ADMIN_INDEX_TITLE = "Welcome to Intern Admin Dashboard"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -152,7 +171,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+# Media files (uploaded files)
+# https://docs.djangoproject.com/en/5.2/topics/files/
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

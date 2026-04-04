@@ -19,6 +19,7 @@
     .btn:hover { filter: brightness(1.05); }
     .help { font-size: 0.9rem; color: #6b7280; text-align: center; margin-top: 10px; }
     .errorlist { list-style: none; padding: 0; margin: 0 0 8px; color: #b91c1c; font-size: 0.9rem; }
+    .session-expired { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; margin-bottom: 16px; color: #991b1b; font-size: 0.9rem; text-align: center; }
     .top { text-align: center; margin-bottom: 14px; }
     .top a { color: #0b5ed7; text-decoration: none; font-size: 0.9rem; }
   </style>
@@ -32,6 +33,11 @@
     <div class="card">
       <h1>Sign in</h1>
 
+      {% if request.GET.session == 'expired' %}
+        <div class="session-expired">
+          ⚠️ Your session has expired due to inactivity. Please log in again.
+        </div>
+      {% endif %}
       {% if form.non_field_errors %}
         <ul class="errorlist">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>
       {% endif %}
