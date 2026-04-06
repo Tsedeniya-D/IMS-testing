@@ -598,9 +598,20 @@ nav a:hover {
 
                           <div class="form-row">
                             <div class="form-group">
-                            <label for="email">Email Address<span class="required-star">*</span></label>
-                            <input type="email" id="email" name="email" class="form-control" required>
-                            <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
+                                <label for="email">Email Address<span class="required-star">*</span></label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                                <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
+                            </div>
+                            <!-- Button to send verification code -->
+                            
+                            <button type="button" id="send-code-btn">Send Verification Code</button>
+                            <div id="send-code-message" style="color:green;"></div>
+                            <!-- Input for verification code -->
+                            <div class="form-group" style="margin-top:10px;">
+                                <label for="verification-code">Enter Verification Code</label>
+                                <input type="text" id="verification-code" class="form-control" maxlength="6">
+                                <div id="verify-code-message" style="color:red; font-size:14px; margin-top:5px;"></div>
+                                <span id="verifyCodeMsg"></span>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number<span class="required-star">*</span></label>
@@ -842,7 +853,88 @@ nav a:hover {
                         <button type="submit" class="btn btn-primary submit-btn" style="margin-top: 20px;">
                             <i class="fas fa-paper-plane"></i> Submit Application
                         </button>
-                    </form>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.phone }}
+                            
+                </form>
+
+                        <!-- Optional JS to prevent deleting +251 -->
+                        <script>
+                         phoneInput.addEventListener('input', function() {
+                            if (!this.value.startsWith('+251')) {
+                                this.value = '+251' + this.value.replace(/^\+?251/, '');
+                            }
+                            const numberOnly = this.value.replace(/\D/g, '');
+                            if (numberOnly.length > 12) {  // +251 + 9 digits = 12 characters
+                                this.value = this.value.slice(0, 12);
+                            }
+                        });
+                        </script>
+                        <!-- JS for sending and verifying -->
+                    <script>
+                    let emailVerified = false;
+                    const sendCodeBtn = document.getElementById('send-code-btn');
+                    const sendCodeMsg = document.getElementById('send-code-message');
+                    const verifyCodeMsg = document.getElementById('verify-code-message');
+                   
+
+                    sendCodeBtn.addEventListener('click', () => {
+                        const email = document.getElementById('email').value.trim();
+                        fetch("{% url 'send_verification' %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: `email=${encodeURIComponent(email)}`
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                sendCodeMsg.textContent = "Verification code sent! Check your email.";
+                                sendCodeMsg.style.color = data.success ? "green" : "red";
+                            } else {
+                                sendCodeMsg.textContent = data.message;
+                                sendCodeMsg.style.color = "red";
+                            }
+                        });
+                    });
+
+                    // Verify code
+                    document.getElementById('verification-code').addEventListener('change', () => {
+                        const code = document.getElementById('verification-code').value.trim();
+                        fetch("{% url 'verify_code' %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: `code=${encodeURIComponent(code)}`
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                verifyCodeMsg.style.color = 'green';
+                                verifyCodeMsg.textContent = "Email verified!";
+                                emailVerified = true;
+                            } else {
+                                verifyCodeMsg.style.color = 'red';
+                                verifyCodeMsg.textContent = data.message;
+                                emailVerified = false;
+                            }
+                        });
+                    });
+
+                    // Prevent form submission if email not verified
+                    document.getElementById('application-form').addEventListener('submit', function(e) {
+                        if (!emailVerified) {
+                            e.preventDefault();
+                            alert("Please verify your email before submitting.");
+                        }
+                    });
+                    </script>
+                </form>
                 </div>
         
     </div>
@@ -927,6 +1019,39 @@ nav a:hover {
         }
         return true;
     }
+     
+        function validateFile(inputId, maxSizeMB = 2) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                if (!file) return;
+
+                // Check file extension
+                const allowedExtensions = ['pdf'];
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                if (!allowedExtensions.includes(fileExtension)) {
+                    alert('Only PDF files are allowed!');
+                    input.value = '';
+                    return;
+                }
+
+                // Check file size
+                const maxSize = maxSizeMB * 1024 * 1024; // 2MB
+                if (file.size > maxSize) {
+                    alert(`File too large! Max size is ${maxSizeMB}MB.`);
+                    input.value = '';
+                }
+            });
+        }
+
+// Run after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    validateFile('passportId', 2);
+    validateFile('motivationLetter', 2);
+    validateFile('resume', 2);
+    validateFile('recommendationLetter', 2);
+});
+
 
     document.getElementById('start_date').addEventListener('change', validateDateDuration);
     document.getElementById('end_date').addEventListener('change', validateDateDuration);
