@@ -57,6 +57,13 @@ pip install -r requirements.txt
 - Create a PostgreSQL database named `intern`.
 - Update `DATABASES` in `stellar_core/settings.py` with your PostgreSQL credentials (or use `.env` for secrets).
 
+## install this dependancies & packages
+-pip install django
+-pip install python-decouple
+-pip install psycopg2-binary
+-pip install openpyxl
+-pip install whitenoise
+
 ### 5. Run migrations
 
 ```sh

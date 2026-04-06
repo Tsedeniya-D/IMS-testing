@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     apply_requirements,
     department_submission,
@@ -8,7 +9,8 @@ from .views import (
 
 urlpatterns = [
     path('', apply_requirements, name='apply_requirements'),
-    path('departments/', department_submission, name='department_submission'),
-    path('depsuccess/', department_success, name='department_success'),
+    path('submit/', department_submission, name='department_submission'),  
+    path('success/', department_success, name='department_success'),       
     path('update/<int:pk>/', DepartmentUpdate.as_view(), name='department_update'),
+    path('change-password/', views.department_change_password, name='department_change_password'),
 ]

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,7 +69,7 @@
             z-index: 1000;
             text-align: center;
             padding: 20px 0;
-            background:white;
+            background: white;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             transition: var(--transition);
@@ -76,7 +77,7 @@
 
         header.scrolled {
             padding: 15px 0;
-            background:white;
+            background: white;
         }
 
         .logo {
@@ -89,14 +90,28 @@
             border-radius: 6px;
             transition: var(--transition);
         }
+
         .header-buttons {
             position: absolute;
             top: 50%;
             right: 20px;
             transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-buttons form {
+            margin: 0;
+            display: flex;
         }
 
         .btn-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: inherit;
             padding: 8px 16px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -105,7 +120,7 @@
             cursor: pointer;
             transition: var(--transition);
             color: #ffffff;
-            background:  #1b5674;
+            background: #1b5674;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -204,7 +219,9 @@
             background: rgba(255, 255, 255, 0.9);
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(8, 63, 118, 0.1);
@@ -338,21 +355,27 @@
             .container {
                 padding: 90px 15px 60px;
             }
+
             .logo {
                 width: 150px;
             }
+
             h1 {
                 font-size: 2.2rem;
             }
+
             .description {
                 font-size: 1.1rem;
             }
+
             .form-content {
                 padding: 30px 20px;
             }
+
             .form-header {
                 padding: 25px 20px;
             }
+
             .form-header h2 {
                 font-size: 1.8rem;
             }
@@ -362,29 +385,38 @@
             h1 {
                 font-size: 1.8rem;
             }
+
             .description {
                 font-size: 1rem;
             }
+
             .field-of-study {
                 grid-template-columns: 1fr;
             }
+
             .submit-btn {
                 width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header id="header">
         <img src="{% static 'images/logo.jpg' %}" alt="Ethiopian Space Science and Geospatial Institute" class="logo" />
-         {% if request.user.is_authenticated %}
-        <div class="header-buttons" style="position:absolute; top:50%; right:20px; transform:translateY(-50%); display:flex; gap:10px;">
+        {% if request.user.is_authenticated %}
+        <div class="header-buttons">
+
+            <a href="{% url 'department_change_password' %}" class="btn-header">
+                Change Password
+            </a>
+
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <input type="hidden" name="next" value="/" />
                 <button type="submit" class="btn-header">Logout</button>
             </form>
+
         </div>
         {% endif %}
     </header>
@@ -394,9 +426,10 @@
         <div class="container">
             <h1>Internship Requirements Submission</h1>
             <p class="description">
-                Submit your department's internship requirement for the upcoming cycle. </p> 
-                 <p class="description"> Please provide detailed information to help us match the right candidates to your needs.</p>
-        
+                Submit your department's internship requirement for the upcoming cycle. </p>
+            <p class="description"> Please provide detailed information to help us match the right candidates to your
+                needs.</p>
+
 
             <div class="form-container">
                 <div class="form-header">
@@ -406,11 +439,13 @@
 
                 <div class="form-content">
                     <div id="successMessage" class="success-message">
-                        <i class="fas fa-check-circle"></i> Your internship requirements have been submitted successfully!
+                        <i class="fas fa-check-circle"></i> Your internship requirements have been submitted
+                        successfully!
                         We'll review your submission and contact you soon.
                     </div>
 
-                    <form id="internshipForm" method="POST" enctype="multipart/form-data" action="{% url 'department_submission' %}">
+                    <form id="internshipForm" method="POST" enctype="multipart/form-data"
+                        action="{% url 'department_submission' %}">
                         {% csrf_token %}
                         <input type="hidden" id="submissionId" name="submissionId">
                         <input type="hidden" id="fields_and_counts" name="fields_and_counts" value="">
@@ -418,28 +453,48 @@
                         <div class="form-group">
                             <label for="department" class="required">Your Office</label>
                             <select id="department" name="department" required>
-                                <option value="">-- Select Department --</option>                    
-<option value="Aerial Survey Lead Executive Office">Aerial Survey Lead Executive Office</option>
-<option value="Aerospace Engineering and Satellite Communication Office">Aerospace Engineering and Satellite Communication Office</option>
-<option value="Astronomy and Astrophysics Lead Executive Office">Astronomy and Astrophysics Lead Executive Office</option>
-<option value="Data and System Administration Lead Executive Office">Data and System Administration Lead Executive Office</option>
-<option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Office</option>
-<option value="Geodesy and Geodynamics Lead Executive Office">Geodesy and Geodynamics Lead Executive Office</option>
-<option value="Geodetic Infrastructure and Service Lead Executive Office">Geodetic Infrastructure and Service Lead Executive Office</option>
-<option value="Mapping Lead Executive Office">Mapping Lead Executive Office</option>
-<option value="Photogrammetry and Lidar data Processing Lead Executive Office">Photogrammetry and Lidar data Processing Lead Executive Office</option>
-<option value="Platform and Application Development Lead Executive Office">Platform and Application Development Lead Executive Office</option>
-<option value="Postgraduate, Registrar and Research Administration Lead Executive Office">Postgraduate, Registrar and Research Administration Lead Executive Office</option>
-<option value="Remote Sensing Lead Executive Office">Remote Sensing Lead Executive Office</option>
-<option value="Regional Partnership Lead Executive Office">Regional Partnership Lead Executive Office</option>
-<option value="Satellite Operation Lead Executive Office">Satellite Operation Lead Executive Office</option>
-<option value="Spatial Decision Support Lead Executive Office">Spatial Decision Support Lead Executive Office</option>
-<option value="Space and Geospatial Information Standardization Framework Lead Executive Office">Space and Geospatial Information Standardization Framework Lead Executive Office</option>
-<option value="Space and Planetary Science Lead Executive Office">Space and Planetary Science Lead Executive Office</option>
-<option value="Training and Technology Transfer Lead Executive Office">Training and Technology Transfer Lead Executive Office</option>
-                      </select>
+                                <option value="">-- Select Department --</option>
+                                <option value="Aerial Survey Lead Executive Office">Aerial Survey Lead Executive Office
+                                </option>
+                                <option value="Aerospace Engineering and Satellite Communication Office">Aerospace
+                                    Engineering and Satellite Communication Office</option>
+                                <option value="Astronomy and Astrophysics Lead Executive Office">Astronomy and
+                                    Astrophysics Lead Executive Office</option>
+                                <option value="Data and System Administration Lead Executive Office">Data and System
+                                    Administration Lead Executive Office</option>
+                                <option value="Digital Image Processing Lead Executive Officer">Digital Image Processing
+                                    Lead Executive Office</option>
+                                <option value="Geodesy and Geodynamics Lead Executive Office">Geodesy and Geodynamics
+                                    Lead Executive Office</option>
+                                <option value="Geodetic Infrastructure and Service Lead Executive Office">Geodetic
+                                    Infrastructure and Service Lead Executive Office</option>
+                                <option value="Mapping Lead Executive Office">Mapping Lead Executive Office</option>
+                                <option value="Photogrammetry and Lidar data Processing Lead Executive Office">
+                                    Photogrammetry and Lidar data Processing Lead Executive Office</option>
+                                <option value="Platform and Application Development Lead Executive Office">Platform and
+                                    Application Development Lead Executive Office</option>
+                                <option
+                                    value="Postgraduate, Registrar and Research Administration Lead Executive Office">
+                                    Postgraduate, Registrar and Research Administration Lead Executive Office</option>
+                                <option value="Remote Sensing Lead Executive Office">Remote Sensing Lead Executive
+                                    Office</option>
+                                <option value="Regional Partnership Lead Executive Office">Regional Partnership Lead
+                                    Executive Office</option>
+                                <option value="Satellite Operation Lead Executive Office">Satellite Operation Lead
+                                    Executive Office</option>
+                                <option value="Spatial Decision Support Lead Executive Office">Spatial Decision Support
+                                    Lead Executive Office</option>
+                                <option
+                                    value="Space and Geospatial Information Standardization Framework Lead Executive Office">
+                                    Space and Geospatial Information Standardization Framework Lead Executive Office
+                                </option>
+                                <option value="Space and Planetary Science Lead Executive Office">Space and Planetary
+                                    Science Lead Executive Office</option>
+                                <option value="Training and Technology Transfer Lead Executive Office">Training and
+                                    Technology Transfer Lead Executive Office</option>
+                            </select>
                         </div>
-                       
+
 
                         <div class="form-group">
                             <label for="internCount" class="required">Total Number of Interns Needed</label>
@@ -508,7 +563,8 @@
                                 </div>
                                 <div class="field-item">
                                     <div class="field-input">
-                                        <input type="checkbox" id="field9" name="fields" value="Computer Science and Engineering">
+                                        <input type="checkbox" id="field9" name="fields"
+                                            value="Computer Science and Engineering">
                                         <label for="field9">Computer Science and Engineering</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
@@ -543,7 +599,8 @@
                                 </div>
                                 <div class="field-item">
                                     <div class="field-input">
-                                        <input type="checkbox" id="field14" name="fields" value="Electrical Engineering">
+                                        <input type="checkbox" id="field14" name="fields"
+                                            value="Electrical Engineering">
                                         <label for="field14">Electrical Engineering</label>
                                         <input type="number" class="field-count" min="0" value="0" disabled>
                                     </div>
@@ -563,26 +620,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" id="otherField" name="otherField" class="form-control" placeholder="Specify other field" style="margin-top: 15px; display: none;">
+                            <input type="text" id="otherField" name="otherField" class="form-control"
+                                placeholder="Specify other field" oninput="validateInput(this)" style="margin-top: 15px; display: none;">
 
                             <div class="field-total-display">
-                                <p>Total per fields: <span id="fieldsTotal">0</span> / <span id="totalNeeded">0</span></p>
-                                <p id="totalError" class="error-text">The sum of interns per field must equal the total number of interns needed.</p>
+                                <p>Total per fields: <span id="fieldsTotal">0</span> / <span id="totalNeeded">0</span>
+                                </p>
+                                <p id="totalError" class="error-text">The sum of interns per field must equal the total
+                                    number of interns needed.</p>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="skills">Required Skills (optional)</label>
-                            <textarea id="skills" name="skills" class="form-control" placeholder="List any specific skills or qualifications in relation with your departmrnt (E.g Software engineering:python)"></textarea>
+                            <textarea id="skills" name="skills" class="form-control"
+                                placeholder="List any specific skills or qualifications in relation with your departmrnt (E.g Software engineering:python)"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="potential_project" class="required">Potential Project</label>
-                            <textarea id="potential_project" name="potential_project" class="form-control" placeholder="Please describe the potential projects that interns could work on, including project goals, required skills, expected outcomes, and any other relevant details..."></textarea>
+                            <textarea id="potential_project" name="potential_project" class="form-control"
+                                placeholder="Please describe the potential projects that interns could work on, including project goals, required skills, expected outcomes, and any other relevant details..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="Mentor" class="required">Mentor</label>
-                            <input type="text" id="mentor" name="mentor" optional>
+                            <label for="Mentor" class="required">Mentor Name</label>
+                            <input type="text" id="mentor" name="mentor" oninput="validateInput(this)" optional>
                         </div>
                         <div class="submit-container">
                             <button type="submit" class="submit-btn">
@@ -595,215 +657,241 @@
         </div>
     </main>
 
-   <script>
-    // === DOM Elements ===
-    const header = document.getElementById('header');
-    const form = document.getElementById('internshipForm');
-    const successMessage = document.getElementById('successMessage');
-    const submitBtn = document.querySelector('.submit-btn');
+    <script>
+        // === DOM Elements ===
+        const header = document.getElementById('header');
+        const form = document.getElementById('internshipForm');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = document.querySelector('.submit-btn');
 
-    // === Storage Key ===
-    const storageKey = 'internshipSubmissions';
+        // === Storage Key ===
+        const storageKey = 'internshipSubmissions';
 
-    // === Header Scroll Effect ===
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+        // === Header Scroll Effect ===
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+
+        // === Show/Hide "Other" Field ===
+        document.getElementById('field16').addEventListener('change', function () {
+            document.getElementById('otherField').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // === Enable/Disable Number Inputs Based on Checkbox ===
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const numberInput = this.closest('.field-input')?.querySelector('.field-count');
+                if (numberInput) {
+                    numberInput.disabled = !this.checked;
+                    if (!this.checked) numberInput.value = 0;
+                    calculateFieldsTotal();
+                }
+            });
+        });
+
+        // === Update Totals When Numbers Change ===
+        document.querySelectorAll('.field-count').forEach(input => {
+            input.addEventListener('input', calculateFieldsTotal);
+        });
+
+        // === Update Total Needed Display ===
+        document.getElementById('internCount').addEventListener('input', function () {
+            document.getElementById('totalNeeded').textContent = this.value || 0;
+            calculateFieldsTotal();
+        });
+
+        // === Calculate Total Interns per Field ===
+        function calculateFieldsTotal() {
+            let total = 0;
+            document.querySelectorAll('.field-input').forEach(field => {
+                const checkbox = field.querySelector('input[type="checkbox"]');
+                const numberInput = field.querySelector('.field-count');
+                if (checkbox.checked) {
+                    total += parseInt(numberInput.value) || 0;
+                }
+            });
+            document.getElementById('fieldsTotal').textContent = total;
+            const totalNeeded = parseInt(document.getElementById('internCount').value) || 0;
+            document.getElementById('totalError').style.display = total !== totalNeeded ? 'block' : 'none';
+            return total;
         }
-    });
 
 
-    // === Show/Hide "Other" Field ===
-    document.getElementById('field16').addEventListener('change', function() {
-        document.getElementById('otherField').style.display = this.checked ? 'block' : 'none';
-    });
+        function loadSubmissionIntoForm(sub) {
+            document.getElementById('submissionId').value = sub.id;
+            document.getElementById('department').value = sub.department;
+            document.getElementById('internCount').value = sub.internCount;
+            document.getElementById('skills').value = sub.skills;
+            document.getElementById('potential_project').value = sub.potential_project;
+            document.getElementById('mentor').value = sub.mentor;
 
-    // === Enable/Disable Number Inputs Based on Checkbox ===
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const numberInput = this.closest('.field-input')?.querySelector('.field-count');
-            if (numberInput) {
-                numberInput.disabled = !this.checked;
-                if (!this.checked) numberInput.value = 0;
-                calculateFieldsTotal();
-            }
-        });
-    });
-
-    // === Update Totals When Numbers Change ===
-    document.querySelectorAll('.field-count').forEach(input => {
-        input.addEventListener('input', calculateFieldsTotal);
-    });
-
-    // === Update Total Needed Display ===
-    document.getElementById('internCount').addEventListener('input', function() {
-        document.getElementById('totalNeeded').textContent = this.value || 0;
-        calculateFieldsTotal();
-    });
-
-    // === Calculate Total Interns per Field ===
-    function calculateFieldsTotal() {
-        let total = 0;
-        document.querySelectorAll('.field-input').forEach(field => {
-            const checkbox = field.querySelector('input[type="checkbox"]');
-            const numberInput = field.querySelector('.field-count');
-            if (checkbox.checked) {
-                total += parseInt(numberInput.value) || 0;
-            }
-        });
-        document.getElementById('fieldsTotal').textContent = total;
-        const totalNeeded = parseInt(document.getElementById('internCount').value) || 0;
-        document.getElementById('totalError').style.display = total !== totalNeeded ? 'block' : 'none';
-        return total;
-    }
-
-
-    function loadSubmissionIntoForm(sub) {
-        document.getElementById('submissionId').value = sub.id;
-        document.getElementById('department').value = sub.department;
-        document.getElementById('internCount').value = sub.internCount;
-        document.getElementById('skills').value = sub.skills;
-        document.getElementById('potential_project').value = sub.potential_project;
-        document.getElementById('mentor').value = sub.mentor;
-
-        // Reset all fields
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.checked = false;
-            const num = cb.closest('.field-input')?.querySelector('.field-count');
-            if (num) {
-                num.disabled = true;
-                num.value = 0;
-            }
-        });
-
-        // Restore field values
-        sub.fields.forEach(f => {
-            const value = f.field;
-            const cb = document.querySelector(`input[type="checkbox"][value="${value}"]`) ||
-                       document.getElementById('field16');
-            if (cb) {
-                cb.checked = true;
+            // Reset all fields
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
                 const num = cb.closest('.field-input')?.querySelector('.field-count');
                 if (num) {
-                    num.disabled = false;
-                    num.value = f.count;
+                    num.disabled = true;
+                    num.value = 0;
                 }
+            });
+
+            // Restore field values
+            sub.fields.forEach(f => {
+                const value = f.field;
+                const cb = document.querySelector(`input[type="checkbox"][value="${value}"]`) ||
+                    document.getElementById('field16');
+                if (cb) {
+                    cb.checked = true;
+                    const num = cb.closest('.field-input')?.querySelector('.field-count');
+                    if (num) {
+                        num.disabled = false;
+                        num.value = f.count;
+                    }
+                }
+            });
+
+            // Handle "Other" field
+            if (sub.fields.some(f => ['Other', document.getElementById('otherField').value].includes(f.field))) {
+                const otherField = sub.fields.find(f => ['Other', f.field].includes(f.field))?.field;
+                document.getElementById('otherField').value = otherField;
+                document.getElementById('otherField').style.display = 'block';
             }
+
+            document.getElementById('totalNeeded').textContent = sub.internCount;
+            calculateFieldsTotal();
+        }
+
+
+
+        // === Get Form Data ===
+        function getFormData() {
+            const fields = [];
+            document.querySelectorAll('.field-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const numberInput = item.querySelector('.field-count');
+                if (checkbox.checked && (parseInt(numberInput.value) || 0) > 0) {
+                    fields.push({
+                        field: checkbox.value === 'Other' ? document.getElementById('otherField').value : checkbox.value,
+                        count: parseInt(numberInput.value)
+                    });
+                }
+            });
+
+            return {
+                id: document.getElementById('submissionId').value || 'sub-' + Date.now(),
+                department: document.getElementById('department').value,
+                internCount: document.getElementById('internCount').value,
+                fields: fields,
+                skills: document.getElementById('skills').value,
+                potential_project: document.getElementById('potential_project').value,
+                mentor: document.getElementById('mentor').value,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        // === Validate Form ===
+        function validateForm() {
+            const department = document.getElementById('department').value;
+            const mentor = document.getElementById('mentor').value;
+            const internCount = document.getElementById('internCount').value;
+            const fields = document.querySelectorAll('input[name="fields"]:checked');
+
+            if (!department || !mentor || !internCount || fields.length === 0) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+
+
+            const fieldsTotal = calculateFieldsTotal();
+            if (fieldsTotal !== parseInt(internCount)) {
+                alert('The sum of interns per field must equal the total number of interns needed.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // === Save to localStorage (for frontend persistence) ===
+        function saveToLocalStorage(data) {
+            const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const index = submissions.findIndex(s => s.id === data.id);
+
+            if (index !== -1) {
+                submissions[index] = data;
+            } else {
+                submissions.push(data);
+            }
+
+            localStorage.setItem(storageKey, JSON.stringify(submissions));
+        }
+
+        function deleteFromLocalStorage(id) {
+            const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
+            const filtered = submissions.filter(s => s.id !== id);
+            localStorage.setItem(storageKey, JSON.stringify(filtered));
+        }
+
+        // === Form Submission Handler ===
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            const data = getFormData();
+            const fieldsData = data.fields;
+            document.getElementById('fields_and_counts').value = JSON.stringify(fieldsData);
+
+            // Save to localStorage
+            saveToLocalStorage(data);
+
+            // Submit form after small delay
+            setTimeout(() => {
+                this.submit();
+            }, 100);
+
+            // Removed scoped validateInput
+
+            // Show success message
+            successMessage.textContent = data.id ?
+                'Your submission has been updated successfully!' :
+                'Your internship requirements have been submitted successfully!';
+            successMessage.style.display = 'block';
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
         });
 
-        // Handle "Other" field
-        if (sub.fields.some(f => ['Other', document.getElementById('otherField').value].includes(f.field))) {
-            const otherField = sub.fields.find(f => ['Other', f.field].includes(f.field))?.field;
-            document.getElementById('otherField').value = otherField;
-            document.getElementById('otherField').style.display = 'block';
-        }
-
-        document.getElementById('totalNeeded').textContent = sub.internCount;
-        calculateFieldsTotal();
-    }
-
-    
-
-    // === Get Form Data ===
-    function getFormData() {
-        const fields = [];
-        document.querySelectorAll('.field-item').forEach(item => {
-            const checkbox = item.querySelector('input[type="checkbox"]');
-            const numberInput = item.querySelector('.field-count');
-            if (checkbox.checked && (parseInt(numberInput.value) || 0) > 0) {
-                fields.push({
-                    field: checkbox.value === 'Other' ? document.getElementById('otherField').value : checkbox.value,
-                    count: parseInt(numberInput.value)
-                });
+        // === Input Validation against Special Characters ===
+        function validateInput(input) {
+            let errorMsg = input.nextElementSibling;
+            if (!errorMsg || !errorMsg.classList.contains('validation-error')) {
+                errorMsg = document.createElement("span");
+                errorMsg.className = "validation-error";
+                errorMsg.style.color = "red";
+                errorMsg.style.fontSize = "14px";
+                errorMsg.style.display = "block";
+                errorMsg.style.marginTop = "5px";
+                input.parentNode.insertBefore(errorMsg, input.nextSibling);
             }
-        });
 
-        return {
-            id: document.getElementById('submissionId').value || 'sub-' + Date.now(),
-            department: document.getElementById('department').value,
-            internCount: document.getElementById('internCount').value,
-            fields: fields,
-            skills: document.getElementById('skills').value,
-            potential_project: document.getElementById('potential_project').value,
-            mentor: document.getElementById('mentor').value,
-            timestamp: new Date().toISOString()
-        };
-    }
+            // Only allow letters and spaces
+            const pattern = /^[a-zA-Z\s]*$/;
 
-    // === Validate Form ===
-    function validateForm() {
-        const department = document.getElementById('department').value;
-        const mentor = document.getElementById('mentor').value;
-        const internCount = document.getElementById('internCount').value;
-        const fields = document.querySelectorAll('input[name="fields"]:checked');
-
-        if (!department || !mentor || !internCount || fields.length === 0) {
-            alert('Please fill in all required fields');
-            return false;
+            if (!pattern.test(input.value)) {
+                errorMsg.textContent = "Special characters & numbers are not allowed!";
+                input.value = input.value.replace(/[^a-zA-Z\s]/g, ""); // remove invalid chars
+            } else {
+                errorMsg.textContent = "";
+            }
         }
 
-
-        const fieldsTotal = calculateFieldsTotal();
-        if (fieldsTotal !== parseInt(internCount)) {
-            alert('The sum of interns per field must equal the total number of interns needed.');
-            return false;
-        }
-
-        return true;
-    }
-
-    // === Save to localStorage (for frontend persistence) ===
-    function saveToLocalStorage(data) {
-        const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
-        const index = submissions.findIndex(s => s.id === data.id);
-
-        if (index !== -1) {
-            submissions[index] = data;
-        } else {
-            submissions.push(data);
-        }
-
-        localStorage.setItem(storageKey, JSON.stringify(submissions));
-    }
-
-    function deleteFromLocalStorage(id) {
-        const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
-        const filtered = submissions.filter(s => s.id !== id);
-        localStorage.setItem(storageKey, JSON.stringify(filtered));
-    }
-
-    // === Form Submission Handler ===
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (!validateForm()) return;
-
-        const data = getFormData();
-        const fieldsData = data.fields;
-        document.getElementById('fields_and_counts').value = JSON.stringify(fieldsData);
-
-        // Save to localStorage
-        saveToLocalStorage(data);
-
-        // Submit form after small delay
-        setTimeout(() => {
-            this.submit();
-        }, 100);
-
-        // Show success message
-        successMessage.textContent = data.id ? 
-            'Your submission has been updated successfully!' : 
-            'Your internship requirements have been submitted successfully!';
-        successMessage.style.display = 'block';
-
-        // Reset form after 3 seconds
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000);
-    });
-
-    
-</script>
+    </script>
 </body>
+
 </html>

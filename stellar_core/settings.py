@@ -127,7 +127,7 @@ elif config('DB_NAME', default='') and config('DB_USER', default=''):
             'USER': config('DB_USER'),
             'PASSWORD': config('DB_PASSWORD'),
             'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='5432'),
+            'PORT': config('DB_PORT', default='6543'),
         }
     }
 else:

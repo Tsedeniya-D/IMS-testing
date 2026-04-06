@@ -49,6 +49,9 @@ def department_submission(request):
 def department_success(request):
     return render(request, 'depsuccess.html')
 
+def department_change_password(request):
+    return render(request, 'departments/department_change_password.html')
+
 @login_required
 @department_user_required
 @departments_open_required
