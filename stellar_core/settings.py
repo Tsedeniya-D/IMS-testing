@@ -19,6 +19,10 @@ from pathlib import Path
 
 import sys
 from pathlib import Path
+try:
+    import dj_database_url  # type: ignore
+except Exception:
+    dj_database_url = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,8 +97,29 @@ WSGI_APPLICATION = 'stellar_core.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-# If Postgres env vars are provided, use Postgres; otherwise fall back to SQLite for local dev
-if config('DB_NAME', default='') and config('DB_USER', default=''):
+# DATABASE configuration
+# Priority (highest -> lowest): DATABASE_URL env var (e.g. Supabase), explicit DB_* env vars, fallback to sqlite
+DATABASE_URL = config('DATABASE_URL', default='')
+if DATABASE_URL:
+    # Prefer dj_database_url when available for parsing full DATABASE_URL strings
+    if dj_database_url:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+        }
+    else:
+        # Minimal parsing fallback: let Django use dj-style URL via ENGINE override
+        # This fallback assumes a postgres URL; recommend installing dj-database-url
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': config('DB_NAME', default=''),
+                'USER': config('DB_USER', default=''),
+                'PASSWORD': config('DB_PASSWORD', default=''),
+                'HOST': config('DB_HOST', default='localhost'),
+                'PORT': config('DB_PORT', default='5432'),
+            }
+        }
+elif config('DB_NAME', default='') and config('DB_USER', default=''):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -199,13 +224,13 @@ EmailMessage.encoding = 'utf-8'
 
 SECRET_KEY = config("SECRET_KEY", default="unsafe-secret-key")
 
-EMAIL_BACKEND = config("EMAIL_BACKEND")
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")  
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = config("EMAIL_HOST", default="localhost")
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
 
 # Authentication redirects
 LOGIN_REDIRECT_URL = '/departments/'
