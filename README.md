@@ -58,11 +58,13 @@ pip install -r requirements.txt
 - Update `DATABASES` in `stellar_core/settings.py` with your PostgreSQL credentials (or use `.env` for secrets).
 
 ## install this dependancies & packages
+```sh
 -pip install django
 -pip install python-decouple
 -pip install psycopg2-binary
 -pip install openpyxl
 -pip install whitenoise
+```
 
 ### 5. Run migrations
 
@@ -82,6 +84,7 @@ python manage.py createsuperuser
 ```sh
 python manage.py runserver
 ```
+
 
 ---
 
