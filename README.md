@@ -59,11 +59,11 @@ pip install -r requirements.txt
 
 ## install this dependancies & packages
 ```sh
--pip install django
--pip install python-decouple
--pip install psycopg2-binary
--pip install openpyxl
--pip install whitenoise
+pip install django
+pip install python-decouple
+pip install psycopg2-binary
+pip install openpyxl
+pip install whitenoise
 ```
 
 ### 5. Run migrations
