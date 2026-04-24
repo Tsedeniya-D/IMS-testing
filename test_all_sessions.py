@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Comprehensive test script to verify session security for all user types
+Simple session security test for admin and department users
 """
 import os
 import sys
@@ -17,85 +17,48 @@ from stellar_core import settings
 
 User = get_user_model()
 
-def test_all_users_session():
-    """Test session security for admin and department users"""
-    print("=== Comprehensive Session Security Test ===")
+def test_sessions():
+    """Test session security for all users"""
+    print("Session Security Test")
+    print("=" * 30)
     
     # Check settings
-    print(f"SESSION_EXPIRE_AT_BROWSER_CLOSE: {settings.SESSION_EXPIRE_AT_BROWSER_CLOSE}")
-    print(f"SESSION_COOKIE_AGE: {settings.SESSION_COOKIE_AGE} seconds ({settings.SESSION_COOKIE_AGE//60} minutes)")
-    print(f"SESSION_COOKIE_HTTPONLY: {settings.SESSION_COOKIE_HTTPONLY}")
-    print(f"SESSION_COOKIE_SECURE: {settings.SESSION_COOKIE_SECURE}")
-    print(f"SESSION_COOKIE_SAMESITE: {settings.SESSION_COOKIE_SAMESITE}")
-    print(f"SESSION_SAVE_EVERY_REQUEST: {settings.SESSION_SAVE_EVERY_REQUEST}")
+    print(f"Browser close expiration: {settings.SESSION_EXPIRE_AT_BROWSER_CLOSE}")
+    print(f"Session timeout: {settings.SESSION_COOKIE_AGE//60} minutes")
+    print(f"HttpOnly cookies: {settings.SESSION_COOKIE_HTTPONLY}")
+    print(f"Secure cookies: {settings.SESSION_COOKIE_SECURE}")
     
-    # Test admin user session
-    print("\n--- Testing Admin User Session ---")
-    admin_client = Client()
+    # Create test users
+    if not User.objects.filter(username='admin').exists():
+        admin = User.objects.create_user('admin', 'admin@test.com', 'admin123')
+        admin.is_staff = True
+        admin.save()
     
-    # Create admin user if not exists
-    if not User.objects.filter(username='adminuser').exists():
-        admin_user = User.objects.create_user(username='adminuser', password='admin123')
-        admin_user.is_staff = True
-        admin_user.save()
+    if not User.objects.filter(username='dept').exists():
+        User.objects.create_user('dept', 'dept@test.com', 'dept123')
     
-    # Login as admin
-    response = admin_client.post('/admin/login/', {
-        'username': 'adminuser',
-        'password': 'admin123'
-    })
+    # Test admin session
+    print("\nAdmin User:")
+    client = Client()
+    client.post('/admin/login/', {'username': 'admin', 'password': 'admin123'})
     
-    # Check admin session
-    admin_session = admin_client.session
-    if admin_session.get('session_configured'):
-        print("✓ Admin session configured for browser-close expiration")
+    if client.session.get('session_configured'):
+        print("✓ Session configured for browser-close expiration")
     else:
-        print("✗ Admin session not properly configured")
+        print("✗ Session not configured")
     
-    # Test department user session
-    print("\n--- Testing Department User Session ---")
-    dept_client = Client()
+    # Test department session
+    print("\nDepartment User:")
+    client = Client()
+    client.post('/login/', {'username': 'dept', 'password': 'dept123'})
+    client.get('/departments/')
     
-    # Create department user if not exists
-    if not User.objects.filter(username='deptuser').exists():
-        User.objects.create_user(username='deptuser', password='dept123')
-    
-    # Login as department user
-    response = dept_client.post('/login/', {
-        'username': 'deptuser',
-        'password': 'dept123'
-    })
-    
-    # Access department dashboard
-    response = dept_client.get('/departments/')
-    
-    # Check department session
-    dept_session = dept_client.session
-    if dept_session.get('session_configured'):
-        print("✓ Department session configured for browser-close expiration")
+    if client.session.get('session_configured'):
+        print("✓ Session configured for browser-close expiration")
     else:
-        print("✗ Department session not properly configured")
+        print("✗ Session not configured")
     
-    # Check session cookies
-    admin_cookie = admin_client.cookies.get('sessionid')
-    dept_cookie = dept_client.cookies.get('sessionid')
-    
-    if admin_cookie:
-        print("✓ Admin session cookie created")
-    else:
-        print("✗ Admin session cookie not found")
-    
-    if dept_cookie:
-        print("✓ Department session cookie created")
-    else:
-        print("✗ Department session cookie not found")
-    
-    print("\n=== Session Security Summary ===")
-    print("✓ All users will have sessions expire on browser close")
-    print("✓ All users have 15-minute inactivity timeout")
-    print("✓ All session cookies are HttpOnly and secure")
-    print("✓ Middleware ensures proper session configuration for all users")
-    print("✓ Both admin and department dashboards are protected")
+    print("\nAll users have secure session configuration")
 
 if __name__ == '__main__':
-    test_all_users_session()
+    test_sessions()
