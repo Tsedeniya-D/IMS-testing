@@ -7,6 +7,7 @@ import time
 class SimpleSessionMiddleware:
     """
     Session security middleware for browser-close expiration
+    Works for all authenticated users (admin, department, etc.)
     """
     
     def __init__(self, get_response):
@@ -16,8 +17,8 @@ class SimpleSessionMiddleware:
         # Process the request
         response = self.get_response(request)
         
-        # Apply to all authenticated users
-        if request.user.is_authenticated and request.path not in ['/login/', '/']:
+        # Apply to all authenticated users except login/home pages
+        if request.user.is_authenticated and request.path not in ['/login/', '/', '/admin/login/']:
             
             # Ensure session is configured for browser-close expiration
             if not request.session.get('session_configured'):
