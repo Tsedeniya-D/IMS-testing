@@ -16,6 +16,11 @@ from .utils import normalize_fields_and_counts
 @department_user_required
 @departments_open_required
 def department_submission(request):
+    # Ensure session is properly configured for browser-close expiration
+    if not request.session.get('session_configured'):
+        request.session['session_configured'] = True
+        request.session.set_expiry(0)  # Expire on browser close
+    
     if request.method == 'POST':
         data = request.POST
 
@@ -26,20 +31,32 @@ def department_submission(request):
 
         fields_and_counts = normalize_fields_and_counts(fields_and_counts)
 
+        # Validate intern count
+        intern_count = int(data.get('internCount') or 0)
+        if intern_count < 1:
+            return render(request, 'departments.html', {
+                'error': 'Intern count must be 1 or above. Negative numbers and 0 are not allowed.',
+                'success': request.session.get('department_saved')
+            })
 
         # Create the department entry
-        department = Department.objects.create(
-            department=data.get('department'),
-            intern_count=int(data.get('internCount') or 0),
-            fields_and_counts=fields_and_counts,
-            skills=data.get('skills'),
-            potential_project=data.get('potential_project'),
-            mentor=data.get('mentor')
-        )
+        try:
+            department = Department.objects.create(
+                department=data.get('department'),
+                intern_count=intern_count,
+                fields_and_counts=fields_and_counts,
+                skills=data.get('skills'),
+                potential_project=data.get('potential_project'),
+                mentor=data.get('mentor')
+            )
 
-        request.session['department_saved'] = True
-
-        return redirect('department_success')  # redirect to success page
+            request.session['department_saved'] = True
+            return redirect('department_success')  # redirect to success page
+        except Exception as e:
+            return render(request, 'departments.html', {
+                'error': str(e),
+                'success': request.session.get('department_saved')
+            })
 
     # GET request (first page load)
     return render(request, 'departments.html', {
@@ -65,8 +82,14 @@ def department_update(request):
         submission_id = data.get('id')
         try:
             department = Department.objects.get(id=submission_id)
+            
+            # Validate intern count
+            intern_count = int(data.get('internCount') or 0)
+            if intern_count < 1:
+                return JsonResponse({'success': False, 'error': 'Intern count must be 1 or above. Negative numbers and 0 are not allowed.'})
+            
             department.department = data.get('department')
-            department.intern_count = int(data.get('internCount') or 0)
+            department.intern_count = intern_count
             department.fields_and_counts = normalize_fields_and_counts(data.get('fields'))
             department.skills = data.get('skills')
             department.potential_project = data.get('potential_project')
@@ -75,6 +98,8 @@ def department_update(request):
             return JsonResponse({'success': True})
         except Department.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Submission not found'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 

@@ -21,12 +21,33 @@ class Department(models.Model):
     intern_count = models.PositiveIntegerField()
     skills = models.TextField(blank=True, null=True)
     potential_project = models.TextField(blank=True, null=True)
-    mentor = models.CharField(max_length=255, blank=True, null=True)
+    mentor = models.CharField(max_length=20, blank=True, null=True)
     fields_and_counts = models.JSONField(default=list)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.department
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        import re
+        
+        if self.intern_count < 1:
+            raise ValidationError('Intern count must be 1 or above. Negative numbers and 0 are not allowed.')
+        if self.mentor and len(self.mentor) > 20:
+            raise ValidationError('Mentor name must be maximum 20 characters long.')
+        
+        # Validate skills field - only allow letters and spaces (like mentor name)
+        if self.skills:
+            skills_pattern = re.compile(r'^[a-zA-Z\s]+$')
+            if not skills_pattern.match(self.skills):
+                raise ValidationError('Skills field should only contain letters and spaces.')
+        
+        # Validate potential project field - only allow letters and spaces (like mentor name)
+        if self.potential_project:
+            project_pattern = re.compile(r'^[a-zA-Z\s]+$')
+            if not project_pattern.match(self.potential_project):
+                raise ValidationError('Potential project field should only contain letters and spaces.')
 
 
 class DepartmentPortalConfig(models.Model):

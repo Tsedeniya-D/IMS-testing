@@ -160,16 +160,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Session Security Settings
 # https://docs.djangoproject.com/en/5.2/topics/http/sessions/
 
-# Session timeout (15 minutes)
+# Session timeout (15 minutes for inactive sessions)
 SESSION_COOKIE_AGE = 900  # 15 minutes in seconds
 
-# Expire session on browser close
+# Expire session on browser close - this is the key setting for browser-close expiration
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-# Secure session cookies
-SESSION_COOKIE_SECURE = DEBUG is False  # Only send over HTTPS in production
-SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
-SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+# Secure session cookies for enhanced security
+SESSION_COOKIE_SECURE = not DEBUG  # Only send over HTTPS in production
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to cookies
+SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection, allows same-site navigation
+
+# Additional session security settings
+SESSION_SAVE_EVERY_REQUEST = True  # Update session on each request
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'  # Secure serialization
 
 
 # Admin site configuration
