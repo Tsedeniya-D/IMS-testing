@@ -236,6 +236,12 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
 
+# =======================
+# Media files (uploads)
+# =======================
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Authentication redirects
 LOGIN_REDIRECT_URL = '/departments/'
 LOGOUT_REDIRECT_URL = '/'
