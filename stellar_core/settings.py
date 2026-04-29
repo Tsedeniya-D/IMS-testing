@@ -122,8 +122,8 @@ if DATABASE_URL:
 elif config('DB_NAME', default='') and config('DB_USER', default=''):
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME'),
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
             'USER': config('DB_USER'),
             'PASSWORD': config('DB_PASSWORD'),
             'HOST': config('DB_HOST', default='localhost'),
@@ -164,7 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
 SESSION_COOKIE_AGE = 900  # 15 minutes in seconds
 
 # Expire session on browser close - this is the key setting for browser-close expiration
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 
 # Secure session cookies for enhanced security
 SESSION_COOKIE_SECURE = not DEBUG  # Only send over HTTPS in production
@@ -177,9 +177,9 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'  # Sec
 
 
 # Admin site configuration
-ADMIN_SITE_HEADER = "Intern Admin Dashboard"
-ADMIN_SITE_TITLE = "Intern Admin Dashboard"
-ADMIN_INDEX_TITLE = "Welcome to Intern Admin Dashboard"
+ADMIN_SITE_HEADER = "SSGI Interns Admin Dashboard"
+ADMIN_SITE_TITLE = "SSGI Interns Admin Dashboard"
+ADMIN_INDEX_TITLE = "Welcome to SSGIInterns Admin Dashboard"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
