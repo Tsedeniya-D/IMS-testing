@@ -72,7 +72,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.adminpanel.simple_middleware.SimpleSessionMiddleware',
 ]
 
 ROOT_URLCONF = 'stellar_core.urls'
@@ -162,11 +161,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Session Security Settings
 # https://docs.djangoproject.com/en/5.2/topics/http/sessions/
 
-# Session timeout (15 minutes for inactive sessions)
-SESSION_COOKIE_AGE = 900  # 15 minutes in seconds
-
+# Session expiration settings
 # Expire session on browser close - this is the key setting for browser-close expiration
-SESSION_EXPIRE_AT_BROWSER_CLOSE =True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Remove session timeout so sessions last until browser closes
+# SESSION_COOKIE_AGE is not used when SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Secure session cookies for enhanced security
 SESSION_COOKIE_SECURE = not DEBUG  # Only send over HTTPS in production
