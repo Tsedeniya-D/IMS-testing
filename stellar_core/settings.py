@@ -8,7 +8,9 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
-"""
+
+from django.contrib.auth.views import LoginView"""
+
 import os
 try:
     from decouple import config  # type: ignore
@@ -243,5 +245,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Authentication redirects
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/departments/'
 LOGOUT_REDIRECT_URL = '/'
