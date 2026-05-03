@@ -1,21 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from apps.departments.models import Department
 
 
 # Create your views here.
 
-# def home(request):
-#     department = Department.objects.first()  # or get the relevant department
-#     return render(request, 'departments.html', {'department': department})
-
 def home(request):
     return render(request, 'home.html')
+
 def interns(request):
     return render(request, 'interns.html')
+
 @login_required
 def departments(request):
     return render(request, 'departments.html')
+
+def department_login(request):
+    """Department login - always goes to department dashboard"""
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            # Always go to department dashboard regardless of user role
+            return redirect('/departments/')
+        else:
+            return render(request, 'registration/login.html', {
+                'error': 'Invalid username or password'
+            })
+    
+    return render(request, 'registration/login.html')
+
 
 # from django.shortcuts import render
 # from apps.departments.models import Department
