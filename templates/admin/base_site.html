@@ -1,7 +1,163 @@
 {% extends "admin/base.html" %}
+{% load static %}
 
 {% block title %} SSGI Interns Admin Dashboard{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    body {
+        background: url("{% static 'images/bg-space.jpg' %}") no-repeat center center fixed !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+    }
+    
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: -1;
+    }
+    
+    #container {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 15px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+        margin: 20px auto !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .module {
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 10px !important;
+        margin-bottom: 20px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    .module h2, .module caption {
+        background: linear-gradient(135deg, #083f76, #1a5fb4) !important;
+        color: white !important;
+        border-radius: 10px 10px 0 0 !important;
+        border-bottom: 3px solid #e68a00 !important;
+    }
+    
+    #header {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-bottom: 1px solid rgba(230, 138, 0, 0.2) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    #branding h1 {
+        color: #083f76 !important;
+        font-weight: 600 !important;
+        font-size: 1.2rem !important;
+    }
+    
+    #branding h1 a {
+        color: #083f76 !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+    }
+    
+    #branding h1 a:hover {
+        color: #1a5fb4 !important;
+        text-decoration: underline !important;
+    }
+    
+    #header #user-tools {
+        color: #444 !important;
+        font-weight: 400 !important;
+    }
+    
+    #header #user-tools a {
+        color: #083f76 !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+    }
+    
+    #header #user-tools a:hover {
+        color: #1a5fb4 !important;
+        text-decoration: underline !important;
+    }
+    
+    .breadcrumbs {
+        background: rgba(248, 249, 250, 0.9) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+        padding: 8px 15px !important;
+        margin: 0 !important;
+        border-radius: 0 0 10px 10px !important;
+    }
+    
+    .breadcrumbs a {
+        color: #083f76 !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+    }
+    
+    .breadcrumbs a:hover {
+        color: #1a5fb4 !important;
+        text-decoration: underline !important;
+    }
+    
+    .object-tools a {
+        background: linear-gradient(135deg, #083f76, #1a5fb4) !important;
+        border: none !important;
+        border-radius: 20px !important;
+        color: white !important;
+        font-weight: 500 !important;
+        padding: 8px 16px !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(8, 63, 118, 0.3) !important;
+    }
+    
+    .object-tools a:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(8, 63, 118, 0.4) !important;
+        background: linear-gradient(135deg, #1a5fb4, #083f76) !important;
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input {
+        background: linear-gradient(135deg, #083f76, #1a5fb4) !important;
+        border: none !important;
+        border-radius: 20px !important;
+        color: white !important;
+        font-weight: 500 !important;
+        padding: 8px 16px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(8, 63, 118, 0.3) !important;
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(8, 63, 118, 0.4) !important;
+        background: linear-gradient(135deg, #1a5fb4, #083f76) !important;
+    }
+    
+    td, th {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    thead th {
+        background: linear-gradient(135deg, #083f76, #1a5fb4) !important;
+        color: white !important;
+        border-bottom: 2px solid #e68a00 !important;
+    }
+    
+    tr:hover {
+        background-color: rgba(8, 63, 118, 0.05) !important;
+    }
+</style>
+{% endblock %}
 
 {% block branding %}
   <h1 id="site-name"><a href="{% url 'admin:index' %}">SSGI Interns Admin Dashboard</a></h1>
 {% endblock %}
+
