@@ -25,6 +25,8 @@ class CombinedSessionMiddleware:
             # ✅ Configure session (only once)
             if not request.session.get('session_configured'):
                 request.session['session_configured'] = True
+                request.session.set_expiry(1800)
+                request.session['last_activity'] = timezone.now().timestamp()
                 # Session will expire when browser closes due to SESSION_EXPIRE_AT_BROWSER_CLOSE = True
                 request.session['session_created'] = timezone.now().isoformat()
 
