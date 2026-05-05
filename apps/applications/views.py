@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.conf import settings
 from .models import InternshipApplication
 from .forms import InternshipApplicationForm
 import random
@@ -127,21 +128,23 @@ def send_verification_code(request):
 
     now = timezone.now().timestamp()
 
-    # HARD LOCK (prevents duplicate execution instantly)
+    # Check if there's already a valid code for this email
+    existing_email = request.session.get('verification_email')
+    expiry = request.session.get('verification_expiry')
+
+    # Prevent sending new code if current one is still valid
+    if existing_email == email and expiry and now < float(expiry):
+        remaining_time = int(float(expiry) - now)
+        return JsonResponse({'success': False, 'message': f'Verification code already sent. Please wait {remaining_time//60} minutes and try again.'})
+
+    # Rate limiting - prevent spam
     lock_key = f"email_lock_{email}"
     last_request_time = request.session.get(lock_key)
 
     if last_request_time and now - float(last_request_time) < 3:
-        return JsonResponse({'success': False, 'message': 'Please wait...'})
+        return JsonResponse({'success': False, 'message': 'Please wait before requesting another code.'})
 
     request.session[lock_key] = now
-
-    # ❗ Prevent overwriting existing valid code
-    existing_email = request.session.get('verification_email')
-    expiry = request.session.get('verification_expiry')
-
-    if existing_email == email and expiry and now < float(expiry):
-        return JsonResponse({'success': False, 'message': 'Code already sent. Check your email.'})
 
     # Generate code
     code = str(random.randint(100000, 999999))
@@ -158,19 +161,45 @@ def send_verification_code(request):
     request.session.pop('email_verified_until', None)
 
     try:
-        send_mail(
-            'Your Internship Verification Code',
-            f'Your verification code is: {code}\nExpires in 5 minutes.',
-            None,
-            [email],
+        # Debug: Print email configuration
+        print(f"Email Configuration: Backend={settings.EMAIL_BACKEND}, Host={settings.EMAIL_HOST}, Port={settings.EMAIL_PORT}")
+        print(f"Email User: {settings.EMAIL_HOST_USER}")
+        print(f"Attempting to send verification code to: {email}")
+        print(f"Verification code: {code}")  # Show code for debugging
+        
+        # Check if we have credentials for SMTP
+        if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+            print("Email credentials not configured! Please set EMAIL_HOST_USER and EMAIL_HOST_PASSWORD in .env")
+            return JsonResponse({'success': False, 'message': 'Email service not configured. Please contact administrator.'})
+        
+        # Send email to applicant's address
+        print(f"Sending verification code to applicant's email: {email}")
+        result = send_mail(
+            'SSGI Internship - Email Verification Code',
+            f'Your verification code is: {code}\n\nThis code will expire in 5 minutes.\n\nIf you did not request this code, please ignore this email.',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],  # Send to applicant's email
             fail_silently=False
         )
-
-        return JsonResponse({'success': True})
+        
+        print(f"Email sent successfully to {email}. Result: {result}")
+        return JsonResponse({'success': True, 'message': 'Verification code sent to your email'})
 
     except Exception as e:
-        print("MAIL ERROR:", e)
-        return JsonResponse({'success': False, 'message': 'Mail server error'})
+        error_msg = str(e)
+        print(f"MAIL ERROR: {error_msg}")
+        
+        # Provide specific error messages
+        if "10060" in error_msg or "connection attempt failed" in error_msg.lower():
+            return JsonResponse({'success': False, 'message': 'Cannot connect to email server. Please check your internet connection and email configuration.'})
+        elif "11001" in error_msg or "getaddrinfo failed" in error_msg.lower():
+            return JsonResponse({'success': False, 'message': 'DNS resolution failed. Cannot find email server. Please check your email configuration.'})
+        elif "Authentication" in error_msg or "credentials" in error_msg.lower():
+            return JsonResponse({'success': False, 'message': 'Email authentication failed. Please check email username and password.'})
+        elif "timeout" in error_msg.lower():
+            return JsonResponse({'success': False, 'message': 'Email server timeout. Please try again.'})
+        else:
+            return JsonResponse({'success': False, 'message': f'Email sending failed: {error_msg}'})
 
     # VERIFY CODE
 
@@ -186,19 +215,27 @@ def verify_code(request):
     expiry = request.session.get('verification_expiry')
 
     if not stored_code_hash or not stored_email:
-        return JsonResponse({'success': False, 'message': 'No code found.'})
+        return JsonResponse({'success': False, 'message': 'No code found. Please request a new code.'})
 
     if email != stored_email:
-        return JsonResponse({'success': False, 'message': 'Email mismatch.'})
+        return JsonResponse({'success': False, 'message': 'Email mismatch. Please use the correct email.'})
 
     if timezone.now().timestamp() > float(expiry):
-        return JsonResponse({'success': False, 'message': 'Code expired.'})
+        # Clear expired code so user can request a new one
+        request.session.pop('verification_code_hash', None)
+        request.session.pop('verification_email', None)
+        request.session.pop('verification_expiry', None)
+        return JsonResponse({'success': False, 'message': 'Code expired. Please request a new code.'})
 
     input_hash = salted_hmac('email_verification_code', code).hexdigest()
 
     if constant_time_compare(input_hash, stored_code_hash):
+        # Clear verification data after successful verification
         request.session['email_verified_email'] = stored_email
         request.session['email_verified_until'] = (timezone.now() + timedelta(minutes=10)).timestamp()
-        return JsonResponse({'success': True})
+        request.session.pop('verification_code_hash', None)
+        request.session.pop('verification_email', None)
+        request.session.pop('verification_expiry', None)
+        return JsonResponse({'success': True, 'message': 'Email verified successfully!'})
 
-    return JsonResponse({'success': False, 'message': 'Incorrect code.'})
+    return JsonResponse({'success': False, 'message': 'Incorrect code. Please try again.'})
