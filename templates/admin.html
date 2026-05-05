@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSGI InternsAdmin Dashboard  </title>
+    <title>SSGI InternsAdmin Dashboard </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
         /* Reuse existing theme variables and base styles */
         :root {
@@ -19,11 +22,13 @@
             --orbit-shadow: 0 4px 20px rgba(11, 61, 145, 0.15);
             --admin-sidebar-width: 250px;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Exo 2', sans-serif;
             background-color: var(--comet-gray);
@@ -44,6 +49,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .sidebar-logo {
             display: flex;
             align-items: center;
@@ -52,29 +58,35 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
         }
+
         .sidebar-logo-icon {
             font-size: 28px;
             color: var(--stellar-gold);
             animation: pulse 3s infinite;
         }
+
         .sidebar-logo-text {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             font-size: 20px;
             letter-spacing: 1px;
         }
+
         .sidebar-logo-text span {
             color: var(--stellar-gold);
         }
+
         .nav-links {
             list-style: none;
             padding: 0;
             margin: 0;
             flex-grow: 1;
         }
+
         .nav-links li {
             margin-bottom: 5px;
         }
+
         .nav-links a {
             display: flex;
             align-items: center;
@@ -87,10 +99,13 @@
             transition: all 0.3s ease;
             gap: 12px;
         }
-        .nav-links a:hover, .nav-links a.active {
+
+        .nav-links a:hover,
+        .nav-links a.active {
             background: rgba(255, 215, 0, 0.15);
             color: var(--stellar-gold);
         }
+
         .nav-links a i {
             width: 24px;
             text-align: center;
@@ -115,15 +130,18 @@
             box-shadow: var(--orbit-shadow);
             z-index: 999;
         }
+
         .top-bar h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 24px;
         }
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -135,6 +153,7 @@
             color: var(--galaxy-dark);
             font-weight: bold;
         }
+
         .logout-btn {
             background: none;
             border: 1px solid var(--star-white);
@@ -144,6 +163,7 @@
             cursor: pointer;
             transition: background 0.3s;
         }
+
         .logout-btn:hover {
             background: rgba(255, 255, 255, 0.1);
         }
@@ -154,73 +174,67 @@
             padding: 30px;
             overflow-y: auto;
         }
+
         .content-section {
             display: none;
             animation: fadeIn 0.5s ease forwards;
         }
+
         .content-section.active {
             display: block;
         }
+
         .section-header {
             margin-bottom: 25px;
         }
+
         .section-header h2 {
             font-family: 'Orbitron', sans-serif;
             color: var(--space-blue);
             font-size: 28px;
             margin-bottom: 10px;
         }
+
         .section-header p {
             color: #666;
         }
 
         /* Tables */
         .table-container {
-          background: transparent;  /* Changed from gradient background */
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(11, 61, 145, 0.15);
-    overflow: hidden;
-    margin-bottom: 30px;
-    border: 1px solid rgba(11, 61, 145, 0.1);
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--orbit-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             padding: 15px;
             text-align: left;
-            border-bottom: 1px solid rgba(11, 61, 145, 0.1);
+            border-bottom: 1px solid #eee;
         }
+
         th {
-            background: transparent;  /* Changed from gradient */
-            color: black;  /* Changed from white */
+            background: var(--space-blue);
+            color: white;
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #ddd;
         }
-        tr:nth-child(even) {
-    background-color: rgba(248, 249, 250, 0.5);
-        }
+
         tr:hover {
-            background-color: rgba(11, 61, 145, 0.05);
-    transform: scale(1.01);
-    transition: all 0.3s ease;
+            background-color: #f9f9f9;
         }
-        td {
-    color: #333;  /* Changed for better visibility */
-    font-weight: 500;
-}
-td:first-child {
-    font-weight: 600;
-    color: #000;
-}
+
         .action-buttons {
             display: flex;
             gap: 10px;
         }
+
         .btn {
             padding: 8px 15px;
             border-radius: 5px;
@@ -235,22 +249,28 @@ td:first-child {
             align-items: center;
             gap: 5px;
         }
+
         .btn-primary {
             background: var(--space-blue);
             color: var(--star-white);
         }
+
         .btn-secondary {
             background: var(--stellar-gold);
             color: var(--galaxy-dark);
         }
+
         .btn-success {
-            background: #4CAF50; /* Green */
+            background: #4CAF50;
+            /* Green */
             color: white;
         }
+
         .btn-danger {
             background: var(--cosmic-red);
             color: white;
         }
+
         .btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
@@ -266,8 +286,9 @@ td:first-child {
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto;
@@ -279,6 +300,7 @@ td:first-child {
             max-height: 80vh;
             overflow-y: auto;
         }
+
         .close {
             color: #aaa;
             float: right;
@@ -286,69 +308,97 @@ td:first-child {
             font-weight: bold;
             cursor: pointer;
         }
+
         .close:hover,
         .close:focus {
             color: black;
         }
+
         .detail-section {
             margin-bottom: 20px;
         }
+
         .detail-section h3 {
-             color: var(--space-blue);
-             margin-bottom: 10px;
-             font-family: 'Orbitron', sans-serif;
+            color: var(--space-blue);
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
         }
+
         .detail-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
         }
+
         .detail-item {
             background: var(--comet-gray);
             padding: 10px;
             border-radius: 5px;
         }
+
         .detail-label {
             font-weight: bold;
             color: #555;
             font-size: 0.9em;
         }
+
         .detail-value {
             margin-top: 5px;
         }
 
         /* Animations */
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
-         /* Responsive Design */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
             }
+
             .sidebar {
                 width: 100%;
                 height: auto;
             }
+
             .nav-links {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
             .nav-links li {
                 margin: 5px;
             }
+
             .nav-links a {
                 padding: 10px 15px;
                 font-size: 14px;
             }
+
             .top-bar {
                 flex-direction: column;
                 gap: 10px;
@@ -357,6 +407,7 @@ td:first-child {
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
@@ -367,11 +418,15 @@ td:first-child {
             <div class="sidebar-logo-text">SSGI<span>ADMIN</span></div>
         </div>
         <ul class="nav-links">
-            <li><a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="#" class="nav-link" data-target="requirements"><i class="fas fa-list"></i> Department Requirements</a></li>
-            <li><a href="#" class="nav-link" data-target="applications"><i class="fas fa-file-alt"></i> Intern Applications</a></li>
+            <li><a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i>
+                    Dashboard</a></li>
+            <li><a href="#" class="nav-link" data-target="requirements"><i class="fas fa-list"></i> Department
+                    Requirements</a></li>
+            <li><a href="#" class="nav-link" data-target="applications"><i class="fas fa-file-alt"></i> Intern
+                    Applications</a></li>
             <li><a href="#" class="nav-link" data-target="matches"><i class="fas fa-link"></i> Matches</a></li>
-            <li><a href="#" class="nav-link" data-target="approved"><i class="fas fa-user-check"></i> Approved Interns</a></li>
+            <li><a href="#" class="nav-link" data-target="approved"><i class="fas fa-user-check"></i> Approved
+                    Interns</a></li>
         </ul>
     </nav>
 
@@ -399,7 +454,8 @@ td:first-child {
                 <div class="stats-grid">
                     <!-- Placeholder for stats cards -->
                     <p>Dashboard statistics and quick actions would appear here.</p>
-                    <button id="run-matching-btn" class="btn btn-primary"><i class="fas fa-sync"></i> Run Matching Algorithm</button>
+                    <button id="run-matching-btn" class="btn btn-primary"><i class="fas fa-sync"></i> Run Matching
+                        Algorithm</button>
                 </div>
             </div>
 
@@ -448,7 +504,7 @@ td:first-child {
                             </tr>
                         </thead>
                         <tbody>
-                             <!-- Data will be populated by JS -->
+                            <!-- Data will be populated by JS -->
                         </tbody>
                     </table>
                 </div>
@@ -479,30 +535,30 @@ td:first-child {
                 </div>
             </div>
 
-             <!-- Approved Interns Section -->
+            <!-- Approved Interns Section -->
             <div id="approved" class="content-section">
                 <div class="section-header">
                     <h2>APPROVED INTERNS</h2>
                     <p>List of interns approved for each department</p>
                 </div>
-                 <div class="table-container">
-                     <!-- Simple list for now, could be grouped by department -->
-                     <table id="approved-table">
-                         <thead>
-                             <tr>
-                                 <th>ID</th>
-                                 <th>Name</th>
-                                 <th>Email</th>
-                                 <th>Department</th>
-                                 <th>University</th>
-                                 <th>Assigned To</th> <!-- Could be department name -->
-                             </tr>
-                         </thead>
-                         <tbody>
-                              <!-- Data will be populated by JS -->
-                         </tbody>
-                     </table>
-                 </div>
+                <div class="table-container">
+                    <!-- Simple list for now, could be grouped by department -->
+                    <table id="approved-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>University</th>
+                                <th>Assigned To</th> <!-- Could be department name -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -541,7 +597,7 @@ td:first-child {
 
         // --- Navigation Handling ---
         navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('data-target');
 
@@ -562,10 +618,10 @@ td:first-child {
         });
 
         // --- Modal Handling ---
-        closeModalBtn.onclick = function() {
+        closeModalBtn.onclick = function () {
             matchModal.style.display = "none";
         }
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == matchModal) {
                 matchModal.style.display = "none";
             }
@@ -672,7 +728,7 @@ td:first-child {
 
                 // Add event listeners to the new "View" buttons
                 document.querySelectorAll('.view-match-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         const matchId = this.getAttribute('data-match-id');
                         viewMatchDetails(matchId);
                     });
@@ -685,16 +741,16 @@ td:first-child {
         }
 
         async function loadApprovedInterns() {
-             try {
-                 const response = await fetch(`${API_BASE_URL}/interns/approved`);
-                 const interns = await response.json();
+            try {
+                const response = await fetch(`${API_BASE_URL}/interns/approved`);
+                const interns = await response.json();
 
-                 const tbody = document.querySelector('#approved-table tbody');
-                 tbody.innerHTML = ''; // Clear existing
+                const tbody = document.querySelector('#approved-table tbody');
+                tbody.innerHTML = ''; // Clear existing
 
-                 interns.forEach(intern => {
-                     const row = document.createElement('tr');
-                     row.innerHTML = `
+                interns.forEach(intern => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                          <td>${intern.id || 'N/A'}</td>
                          <td>${(intern.firstName || '') + ' ' + (intern.lastName || '')}</td>
                          <td>${intern.email || 'N/A'}</td>
@@ -702,13 +758,13 @@ td:first-child {
                          <td>${intern.university || intern.collegeName || 'N/A'}</td>
                          <td>${intern.assigned_department || 'N/A'}</td> <!-- Assuming backend provides this -->
                      `;
-                     tbody.appendChild(row);
-                 });
-             } catch (error) {
-                 console.error('Error loading approved interns:', error);
-                 alert('Failed to load approved interns.');
-             }
-         }
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading approved interns:', error);
+                alert('Failed to load approved interns.');
+            }
+        }
 
 
         // --- Match Interaction ---
@@ -812,8 +868,8 @@ td:first-child {
                     // Reload the matches section
                     loadPendingMatches();
                     // Reload approved interns if it was an approval
-                    if(action === 'approve') {
-                         loadApprovedInterns();
+                    if (action === 'approve') {
+                        loadApprovedInterns();
                     }
                 } else {
                     const errorData = await response.json();
@@ -830,25 +886,25 @@ td:first-child {
         rejectMatchBtn.addEventListener('click', () => approveOrRejectMatch('reject'));
 
         runMatchingBtn.addEventListener('click', async () => {
-             try {
-                 const response = await fetch(`${API_BASE_URL}/matches/run`, {
-                     method: 'POST'
-                 });
+            try {
+                const response = await fetch(`${API_BASE_URL}/matches/run`, {
+                    method: 'POST'
+                });
 
-                 if (response.ok) {
-                     const data = await response.json();
-                     alert(data.message || 'Matching algorithm run successfully.');
-                     // Reload the matches section to show new potential matches
-                     loadPendingMatches();
-                 } else {
-                     const errorData = await response.json();
-                     alert(`Failed to run matching: ${errorData.message || response.statusText}`);
-                 }
-             } catch (error) {
-                 console.error('Error running matching:', error);
-                 alert('An error occurred while trying to run the matching algorithm.');
-             }
-         });
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message || 'Matching algorithm run successfully.');
+                    // Reload the matches section to show new potential matches
+                    loadPendingMatches();
+                } else {
+                    const errorData = await response.json();
+                    alert(`Failed to run matching: ${errorData.message || response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Error running matching:', error);
+                alert('An error occurred while trying to run the matching algorithm.');
+            }
+        });
 
         // --- Initialize ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -861,4 +917,5 @@ td:first-child {
 
     </script>
 </body>
+
 </html>
